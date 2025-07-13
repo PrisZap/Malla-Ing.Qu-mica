@@ -12,15 +12,53 @@
     }
 
     .anio {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
     .anio h2 {
       font-size: 16px;
-      cursor: pointer;
-      margin: 10px 0 5px;
       color: #005577;
       user-select: none;
+      margin: 10px 0 5px;
+      cursor: default;
+    }
+
+    .botones-estado {
+      margin-top: 5px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .boton-estado {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 1.5px solid #349ddc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .boton-activa {
+      background-color: #7cc7f2; /* mismo celeste que .materia.activa */
+    }
+
+    .boton-aprobada {
+      background-color: #7cc7f2;
+      position: relative;
+    }
+
+    /* Línea tachada dentro del círculo para aprobado */
+    .boton-aprobada::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 2px;
+      background-color: #002233;
+      transform: rotate(-45deg);
+      top: 7px;
+      left: 3px;
     }
 
     .materias {
@@ -59,6 +97,10 @@
 
   <div class="anio" data-anio="1">
     <h2>Primer Año</h2>
+    <div class="botones-estado">
+      <div class="boton-estado boton-activa" title="Activar todas las materias"></div>
+      <div class="boton-estado boton-aprobada" title="Aprobar todas las materias"></div>
+    </div>
     <div class="materias">
       <div class="materia" data-id="mate1">Matemática I</div>
       <div class="materia" data-id="quim1">Química General</div>
@@ -68,6 +110,10 @@
 
   <div class="anio" data-anio="2">
     <h2>Segundo Año</h2>
+    <div class="botones-estado">
+      <div class="boton-estado boton-activa" title="Activar todas las materias"></div>
+      <div class="boton-estado boton-aprobada" title="Aprobar todas las materias"></div>
+    </div>
     <div class="materias">
       <div class="materia" data-id="mate2">Matemática II</div>
       <div class="materia" data-id="org1">Química Orgánica</div>
@@ -109,7 +155,7 @@
       });
     });
 
-    // Activar materias de un año
+    // Funciones para activar o aprobar materias de un año
     function activarMateriasDelAnio(numero) {
       const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
       const materiasAnio = contenedor.querySelectorAll('.materia');
@@ -122,7 +168,6 @@
       });
     }
 
-    // Aprobar materias de un año
     function aprobarMateriasDelAnio(numero) {
       const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
       const materiasAnio = contenedor.querySelectorAll('.materia');
@@ -134,16 +179,18 @@
       });
     }
 
-    // Asignar eventos a los títulos de años
+    // Eventos para los botones circulares por año
     document.querySelectorAll('.anio').forEach(anio => {
       const numero = anio.dataset.anio;
-      const titulo = anio.querySelector('h2');
 
-      titulo.addEventListener('click', () => {
+      const btnActiva = anio.querySelector('.boton-activa');
+      const btnAprueba = anio.querySelector('.boton-aprobada');
+
+      btnActiva.addEventListener('click', () => {
         activarMateriasDelAnio(numero);
       });
 
-      titulo.addEventListener('dblclick', () => {
+      btnAprueba.addEventListener('click', () => {
         aprobarMateriasDelAnio(numero);
       });
     });
