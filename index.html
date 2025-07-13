@@ -6,47 +6,57 @@
   <title>Malla Ingeniería Química</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f9fbfc;
-    color: #333;
-  }
+    body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #E0F7FA; /* celeste pastel clarito */
+  color: #0277BD; /* azul oscuro para buen contraste */
+  margin: 0;
+  padding: 0;
+}
 
-  .materia {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 6px 0;
-    background-color: #ffffff;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease-in-out;
-  }
+.materia {
+  border: 1px solid #81D4FA; /* celeste pastel medio */
+  border-radius: 10px;
+  padding: 10px;
+  margin: 6px 0;
+  background-color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(31, 119, 180, 0.15); /* sombra suave celeste */
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease-in-out;
+  color: #0277BD;
+}
 
-  .materia:hover {
-    transform: scale(1.02);
-  }
+.materia:hover {
+  transform: scale(1.05);
+  background-color: #4FC3F7; /* celeste pastel más intenso */
+  color: white;
+}
 
-  .materia.aprobada {
-    background-color: #d0f0fd;
-    border-color: #5bc0de;
-  }
+.materia.aprobada {
+  background-color: #81D4FA; /* celeste pastel */
+  border-color: #4FC3F7;
+  color: #0277BD;
+  font-weight: 600;
+}
 
-  .materia.desbloqueada {
-    background-color: #e6f7ff;
-    border-color: #5dade2;
-  }
+.materia.desbloqueada {
+  background-color: #B3E5FC; /* celeste claro */
+  border-color: #81D4FA;
+  color: #0277BD;
+}
 
-  .materia.bloqueada {
-    background-color: #fce8e6;
-    border-color: #e57373;
-  }
+.materia.bloqueada {
+  background-color: #f0f8ff; /* celeste muy muy clarito */
+  border-color: #a0c4ff;
+  color: #7a9ee3;
+}
 
-  .nivel h4 {
-    font-weight: bold;
-    color: #444;
-    margin-bottom: 15px;
-  }
+.nivel h4 {
+  font-weight: bold;
+  color: #0277BD;
+  margin-bottom: 15px;
+}
+
   </style>
 
 </head>
