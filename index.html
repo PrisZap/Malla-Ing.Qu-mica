@@ -56,8 +56,82 @@
   </div>
 
   <script>
-    const materias = [...]; // (el contenido de materias se mantiene igual)
-    // (el resto del código JS permanece igual)
+    const materias = [
+      { id: 1, nombre: "Integración I", nivel: 1 },
+      { id: 2, nombre: "Ingeniería y Sociedad", nivel: 1 },
+      { id: 3, nombre: "Álgebra y Geometría Analítica", nivel: 1 },
+      { id: 4, nombre: "Análisis Matemático I", nivel: 1 },
+      { id: 5, nombre: "Física I", nivel: 1 },
+      { id: 6, nombre: "Química General", nivel: 1 },
+      { id: 7, nombre: "Sistemas de Representación", nivel: 1 },
+      { id: 8, nombre: "Fundamentos de la Informática", nivel: 1 },
+      { id: 9, nombre: "Integración II", nivel: 2, correlativas: [1, 4, 6] },
+      { id: 10, nombre: "Probabilidad y Estadística", nivel: 2, correlativas: [3, 4] },
+      { id: 11, nombre: "Química Inorgánica", nivel: 2, correlativas: [6] },
+      { id: 12, nombre: "Análisis Matemático II", nivel: 2, correlativas: [4, 5] },
+      { id: 13, nombre: "Física II", nivel: 2, correlativas: [4, 5, 12] },
+      { id: 14, nombre: "Química Orgánica", nivel: 2, correlativas: [6] },
+      { id: 15, nombre: "Inglés I", nivel: 2 },
+      { id: 16, nombre: "Matemática Superior Aplicada", nivel: 2, correlativas: [3, 5] },
+      { id: 17, nombre: "Integración III", nivel: 3, correlativas: [5, 9, 13] },
+      { id: 18, nombre: "Termodinámica", nivel: 3, correlativas: [5, 13] },
+      { id: 19, nombre: "Economía", nivel: 3, correlativas: [9] },
+      { id: 20, nombre: "Legislación", nivel: 3, correlativas: [9] },
+      { id: 21, nombre: "Mecánica Eléctrica Industrial", nivel: 3, correlativas: [13] },
+      { id: 22, nombre: "Físico Química", nivel: 3, correlativas: [5, 11, 13, 18] },
+      { id: 23, nombre: "Fenómenos de Transporte", nivel: 3, correlativas: [5, 13, 18] },
+      { id: 24, nombre: "Química Analítica", nivel: 3, correlativas: [11, 13] },
+      { id: 25, nombre: "Inglés II", nivel: 3, correlativas: [15] },
+      { id: 26, nombre: "Integración IV", nivel: 4, correlativas: [17, 21, 23] },
+      { id: 27, nombre: "Operaciones Unitarias I", nivel: 4, correlativas: [18, 23] },
+      { id: 28, nombre: "Tecnología de la Energía Térmica", nivel: 4, correlativas: [5, 13] },
+      { id: 29, nombre: "Biotecnología", nivel: 4, correlativas: [11, 13, 14] },
+      { id: 30, nombre: "Operaciones Unitarias II", nivel: 4, correlativas: [5, 13, 23] },
+      { id: 31, nombre: "Ingeniería de las Reacciones Químicas", nivel: 4, correlativas: [22, 23] },
+      { id: 32, nombre: "Control Estadístico de Procesos", nivel: 4, correlativas: [5, 10, 11, 13] },
+      { id: 33, nombre: "Organización Industrial", nivel: 4, correlativas: [19, 20] },
+      { id: 34, nombre: "Química Analítica Aplicada", nivel: 4, correlativas: [24] },
+      { id: 35, nombre: "Control Automático de Procesos", nivel: 5, correlativas: [16, 27, 28] },
+      { id: 36, nombre: "Proyecto Final Integración V", nivel: 5, correlativas: [26, 27, 31, 23, 25] }
+    ];
+
+    const malla = document.getElementById("malla");
+
+    for (let nivel = 1; nivel <= 5; nivel++) {
+      const col = document.createElement("div");
+      col.classList.add("col-md-2", "nivel");
+      col.innerHTML = `<h4>Nivel ${nivel}</h4>`;
+      materias.filter(m => m.nivel === nivel).forEach(m => {
+        const div = document.createElement("div");
+        div.className = "materia bloqueada";
+        div.textContent = m.nombre;
+        div.dataset.id = m.id;
+        div.addEventListener("click", () => toggleMateria(m.id));
+        col.appendChild(div);
+      });
+      malla.appendChild(col);
+    }
+
+    function toggleMateria(id) {
+      const el = document.querySelector(`[data-id='${id}']`);
+      el.classList.toggle("aprobada");
+      actualizarCorrelativas();
+    }
+
+    function actualizarCorrelativas() {
+      materias.forEach(m => {
+        const el = document.querySelector(`[data-id='${m.id}']`);
+        if (!el.classList.contains("aprobada")) {
+          if (!m.correlativas || m.correlativas.every(id => document.querySelector(`[data-id='${id}']`).classList.contains("aprobada"))) {
+            el.classList.remove("bloqueada");
+            el.classList.add("desbloqueada");
+          } else {
+            el.classList.remove("desbloqueada");
+            el.classList.add("bloqueada");
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>
