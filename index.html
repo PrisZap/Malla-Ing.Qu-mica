@@ -20,6 +20,7 @@
       cursor: pointer;
       margin: 10px 0 5px;
       color: #005577;
+      user-select: none;
     }
 
     .materias {
@@ -30,20 +31,26 @@
 
     .materia {
       padding: 4px 8px;
-      border-radius: 8px;
+      border-radius: 20px;
       font-size: 12px;
       background-color: #d2ecf9; /* Inactiva */
+      color: #003344;
       cursor: pointer;
       user-select: none;
-      transition: background-color 0.2s ease, text-decoration 0.2s ease;
+      transition: background-color 0.2s ease, text-decoration 0.2s ease, color 0.2s ease;
+      border: 1px dashed #7bbadd;
     }
 
     .materia.activa {
-      background-color: #9cd2f4; /* Activa */
+      background-color: #7cc7f2; /* Activa */
+      color: #002233;
+      border: 1px solid #349ddc;
     }
 
     .materia.aprobada {
       text-decoration: line-through;
+      font-style: italic;
+      opacity: 0.85;
     }
   </style>
 </head>
@@ -51,7 +58,7 @@
   <h1>Malla de Ingeniería Química</h1>
 
   <div class="anio" data-anio="1">
-    <h2 onclick="toggleAnio(1)">Primer Año</h2>
+    <h2>Primer Año</h2>
     <div class="materias">
       <div class="materia" data-id="mate1">Matemática I</div>
       <div class="materia" data-id="quim1">Química General</div>
@@ -60,7 +67,7 @@
   </div>
 
   <div class="anio" data-anio="2">
-    <h2 onclick="toggleAnio(2)">Segundo Año</h2>
+    <h2>Segundo Año</h2>
     <div class="materias">
       <div class="materia" data-id="mate2">Matemática II</div>
       <div class="materia" data-id="org1">Química Orgánica</div>
@@ -71,7 +78,7 @@
   <script>
     const materias = document.querySelectorAll('.materia');
 
-    // Cargar estados previos desde localStorage
+    // Cargar estados desde localStorage
     window.addEventListener('DOMContentLoaded', () => {
       materias.forEach(materia => {
         const id = materia.dataset.id;
@@ -84,10 +91,11 @@
       });
     });
 
-    // Cambiar estado al hacer clic
+    // Cambiar estado de materia individual
     materias.forEach(materia => {
       materia.addEventListener('click', () => {
         const id = materia.dataset.id;
+
         if (!materia.classList.contains('activa')) {
           materia.classList.add('activa');
           localStorage.setItem(`materia-${id}`, 'activa');
@@ -101,27 +109,44 @@
       });
     });
 
-    // Activar todas las materias de un año
-    function toggleAnio(numero) {
+    // Activar materias de un año
+    function activarMateriasDelAnio(numero) {
       const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
       const materiasAnio = contenedor.querySelectorAll('.materia');
 
       materiasAnio.forEach(materia => {
         const id = materia.dataset.id;
-
-        // Cambia de estado como si se hubiera hecho clic
-        if (!materia.classList.contains('activa')) {
-          materia.classList.add('activa');
-          localStorage.setItem(`materia-${id}`, 'activa');
-        } else if (!materia.classList.contains('aprobada')) {
-          materia.classList.add('aprobada');
-          localStorage.setItem(`materia-${id}`, 'aprobada');
-        } else {
-          materia.classList.remove('activa', 'aprobada');
-          localStorage.removeItem(`materia-${id}`);
-        }
+        materia.classList.add('activa');
+        materia.classList.remove('aprobada');
+        localStorage.setItem(`materia-${id}`, 'activa');
       });
     }
+
+    // Aprobar materias de un año
+    function aprobarMateriasDelAnio(numero) {
+      const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
+      const materiasAnio = contenedor.querySelectorAll('.materia');
+
+      materiasAnio.forEach(materia => {
+        const id = materia.dataset.id;
+        materia.classList.add('activa', 'aprobada');
+        localStorage.setItem(`materia-${id}`, 'aprobada');
+      });
+    }
+
+    // Asignar eventos a los títulos de años
+    document.querySelectorAll('.anio').forEach(anio => {
+      const numero = anio.dataset.anio;
+      const titulo = anio.querySelector('h2');
+
+      titulo.addEventListener('click', () => {
+        activarMateriasDelAnio(numero);
+      });
+
+      titulo.addEventListener('dblclick', () => {
+        aprobarMateriasDelAnio(numero);
+      });
+    });
   </script>
 </body>
 </html>
