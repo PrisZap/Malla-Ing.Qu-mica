@@ -15,42 +15,10 @@
     }
     .anio h2 {
       font-size: 16px;
+      cursor: pointer;
+      margin: 10px 0 5px;
       color: #005577;
       user-select: none;
-      margin: 10px 0 5px;
-      cursor: default;
-    }
-    .botones-estado {
-      margin-top: 5px;
-      display: flex;
-      gap: 10px;
-    }
-    .boton-estado {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 1.5px solid #349ddc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .boton-activa {
-      background-color: #7cc7f2; /* mismo celeste que .materia.activa */
-    }
-    .boton-aprobada {
-      background-color: #7cc7f2;
-      position: relative;
-    }
-    .boton-aprobada::after {
-      content: "";
-      position: absolute;
-      width: 10px;
-      height: 2px;
-      background-color: #002233;
-      transform: rotate(-45deg);
-      top: 7px;
-      left: 3px;
     }
     .materias {
       display: flex;
@@ -85,34 +53,63 @@
 
   <div class="anio" data-anio="1">
     <h2>Primer Año</h2>
-    <div class="botones-estado">
-      <div class="boton-estado boton-activa" title="Activar todas las materias"></div>
-      <div class="boton-estado boton-aprobada" title="Aprobar todas las materias"></div>
-    </div>
     <div class="materias">
       <div class="materia" data-id="mate1">Matemática I</div>
       <div class="materia" data-id="quim1">Química General</div>
       <div class="materia" data-id="fis1">Física I</div>
+      <div class="materia" data-id="intro">Introducción a la Ingeniería</div>
+      <div class="materia" data-id="comu1">Comunicación Técnica</div>
     </div>
   </div>
 
   <div class="anio" data-anio="2">
     <h2>Segundo Año</h2>
-    <div class="botones-estado">
-      <div class="boton-estado boton-activa" title="Activar todas las materias"></div>
-      <div class="boton-estado boton-aprobada" title="Aprobar todas las materias"></div>
-    </div>
     <div class="materias">
       <div class="materia" data-id="mate2">Matemática II</div>
       <div class="materia" data-id="org1">Química Orgánica</div>
       <div class="materia" data-id="fis2">Física II</div>
+      <div class="materia" data-id="termo1">Termodinámica I</div>
+      <div class="materia" data-id="calculo">Cálculo Diferencial</div>
+    </div>
+  </div>
+
+  <div class="anio" data-anio="3">
+    <h2>Tercer Año</h2>
+    <div class="materias">
+      <div class="materia" data-id="termo2">Termodinámica II</div>
+      <div class="materia" data-id="cinematica">Cinetica Química</div>
+      <div class="materia" data-id="mate3">Matemática III</div>
+      <div class="materia" data-id="procesos">Procesos Químicos</div>
+      <div class="materia" data-id="electrica">Electrotecnia</div>
+    </div>
+  </div>
+
+  <div class="anio" data-anio="4">
+    <h2>Cuarto Año</h2>
+    <div class="materias">
+      <div class="materia" data-id="separacion">Operaciones de Separación</div>
+      <div class="materia" data-id="proyecto">Proyecto Final I</div>
+      <div class="materia" data-id="control">Control de Procesos</div>
+      <div class="materia" data-id="quimindus">Química Industrial</div>
+      <div class="materia" data-id="seguridad">Seguridad e Higiene</div>
+    </div>
+  </div>
+
+  <div class="anio" data-anio="5">
+    <h2>Quinto Año</h2>
+    <div class="materias">
+      <div class="materia" data-id="proyecto2">Proyecto Final II</div>
+      <div class="materia" data-id="gestion">Gestión Ambiental</div>
+      <div class="materia" data-id="optativa1">Materia Optativa I</div>
+      <div class="materia" data-id="optativa2">Materia Optativa II</div>
+      <div class="materia" data-id="tesis">Tesis</div>
     </div>
   </div>
 
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const materias = document.querySelectorAll('.materia');
+    const materias = document.querySelectorAll('.materia');
 
+    window.addEventListener('DOMContentLoaded', () => {
       // Cargar estados desde localStorage
       materias.forEach(materia => {
         const id = materia.dataset.id;
@@ -123,63 +120,61 @@
           materia.classList.add('activa', 'aprobada');
         }
       });
+    });
 
-      // Cambiar estado de materia individual
-      materias.forEach(materia => {
-        materia.addEventListener('click', () => {
-          const id = materia.dataset.id;
+    // Cambiar estado de materia individual
+    materias.forEach(materia => {
+      materia.addEventListener('click', () => {
+        const id = materia.dataset.id;
 
-          if (!materia.classList.contains('activa')) {
-            materia.classList.add('activa');
-            localStorage.setItem(`materia-${id}`, 'activa');
-          } else if (!materia.classList.contains('aprobada')) {
-            materia.classList.add('aprobada');
-            localStorage.setItem(`materia-${id}`, 'aprobada');
-          } else {
-            materia.classList.remove('activa', 'aprobada');
-            localStorage.removeItem(`materia-${id}`);
-          }
-        });
-      });
-
-      // Funciones para activar o aprobar materias de un año
-      function activarMateriasDelAnio(numero) {
-        const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
-        const materiasAnio = contenedor.querySelectorAll('.materia');
-
-        materiasAnio.forEach(materia => {
-          const id = materia.dataset.id;
+        if (!materia.classList.contains('activa')) {
           materia.classList.add('activa');
-          materia.classList.remove('aprobada');
           localStorage.setItem(`materia-${id}`, 'activa');
-        });
-      }
-
-      function aprobarMateriasDelAnio(numero) {
-        const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
-        const materiasAnio = contenedor.querySelectorAll('.materia');
-
-        materiasAnio.forEach(materia => {
-          const id = materia.dataset.id;
-          materia.classList.add('activa', 'aprobada');
+        } else if (!materia.classList.contains('aprobada')) {
+          materia.classList.add('aprobada');
           localStorage.setItem(`materia-${id}`, 'aprobada');
-        });
-      }
+        } else {
+          materia.classList.remove('activa', 'aprobada');
+          localStorage.removeItem(`materia-${id}`);
+        }
+      });
+    });
 
-      // Eventos para los botones circulares por año
-      document.querySelectorAll('.anio').forEach(anio => {
-        const numero = anio.dataset.anio;
+    // Funciones para activar o aprobar materias de un año
+    function activarMateriasDelAnio(numero) {
+      const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
+      const materiasAnio = contenedor.querySelectorAll('.materia');
 
-        const btnActiva = anio.querySelector('.boton-activa');
-        const btnAprueba = anio.querySelector('.boton-aprobada');
+      materiasAnio.forEach(materia => {
+        const id = materia.dataset.id;
+        materia.classList.add('activa');
+        materia.classList.remove('aprobada');
+        localStorage.setItem(`materia-${id}`, 'activa');
+      });
+    }
 
-        btnActiva.addEventListener('click', () => {
-          activarMateriasDelAnio(numero);
-        });
+    function aprobarMateriasDelAnio(numero) {
+      const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
+      const materiasAnio = contenedor.querySelectorAll('.materia');
 
-        btnAprueba.addEventListener('click', () => {
+      materiasAnio.forEach(materia => {
+        const id = materia.dataset.id;
+        materia.classList.add('activa', 'aprobada');
+        localStorage.setItem(`materia-${id}`, 'aprobada');
+      });
+    }
+
+    // Evento click para títulos de años
+    document.querySelectorAll('.anio').forEach(anio => {
+      const numero = anio.dataset.anio;
+      const titulo = anio.querySelector('h2');
+
+      titulo.addEventListener('click', (event) => {
+        if (event.shiftKey || event.ctrlKey) {
           aprobarMateriasDelAnio(numero);
-        });
+        } else {
+          activarMateriasDelAnio(numero);
+        }
       });
     });
   </script>
