@@ -1,68 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Malla Ingeniería Química</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+  />
   <style>
     body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #E0F7FA; /* celeste pastel clarito */
-  color: #0277BD; /* azul oscuro para buen contraste */
-  margin: 0;
-  padding: 0;
-}
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #E0F7FA;
+      color: #0277BD;
+      margin: 0;
+      padding: 0;
+    }
 
-.materia {
-  border: 1px solid #81D4FA; /* celeste pastel medio */
-  border-radius: 10px;
-  padding: 10px;
-  margin: 6px 0;
-  background-color: #ffffff;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(31, 119, 180, 0.15); /* sombra suave celeste */
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease-in-out;
-  color: #0277BD;
-}
+    .nivel {
+      border: 2px solid #81D4FA;
+      border-radius: 12px;
+      background-color: #ffffffcc;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
 
-.materia:hover {
-  transform: scale(1.05);
-  background-color: #4FC3F7; /* celeste pastel más intenso */
-  color: white;
-}
+    .nivel h4 {
+      font-weight: 700;
+      color: #013a63;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      text-align: center;
+      user-select: none;
+    }
 
-.materia.aprobada {
-  background-color: #81D4FA; /* celeste pastel */
-  border-color: #4FC3F7;
-  color: #0277BD;
-  font-weight: 600;
-}
+    .materia {
+      border-radius: 10px;
+      padding: 14px 12px;
+      margin: 6px 0;
+      background-color: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(31, 119, 180, 0.15);
+      transition: background-color 0.3s ease, color 0.3s ease,
+        transform 0.2s ease-in-out;
+      color: #013a63;
+      font-size: 1.1rem;
+      border-style: dotted;
+      border-width: 2px;
+      border-color: #81D4FA;
+      user-select: none;
+    }
 
-.materia.desbloqueada {
-  background-color: #B3E5FC; /* celeste claro */
-  border-color: #81D4FA;
-  color: #0277BD;
-}
+    .materia:hover {
+      transform: scale(1.05);
+      background-color: #4FC3F7;
+      color: white;
+      border-style: solid;
+      border-color: #4FC3F7;
+    }
 
-.materia.bloqueada {
-  background-color: #f0f8ff; /* celeste muy muy clarito */
-  border-color: #a0c4ff;
-  color: #7a9ee3;
-}
+    .materia.aprobada {
+      background-color: #81D4FA;
+      border-style: solid;
+      border-color: #4FC3F7;
+      color: #013a63;
+      font-weight: 700;
+      text-decoration: line-through;
+    }
 
-.nivel h4 {
-  font-weight: bold;
-  color: #0277BD;
-  margin-bottom: 15px;
-}
+    .materia.desbloqueada {
+      background-color: #B3E5FC;
+      border-style: dotted;
+      border-color: #81D4FA;
+      color: #0277BD;
+    }
 
+    .materia.bloqueada {
+      background-color: #f0f8ff;
+      border-style: dotted;
+      border-color: #a0c4ff;
+      color: #7a9ee3;
+    }
+
+    .container {
+      max-width: 1200px;
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 900;
+      color: #013a63;
+      margin: 25px 0 15px 0;
+      font-size: 2.5rem;
+      user-select: none;
+    }
   </style>
-
 </head>
 <body>
   <div class="container mt-4">
-    <h1 class="text-center">Malla Ingeniería Química</h1>
+    <h1>Ingeniería Química</h1>
     <div id="malla" class="row"></div>
   </div>
 
@@ -111,15 +147,17 @@
     for (let nivel = 1; nivel <= 5; nivel++) {
       const col = document.createElement("div");
       col.classList.add("col-md-2", "nivel");
-      col.innerHTML = `<h4>Nivel ${nivel}</h4>`;
-      materias.filter(m => m.nivel === nivel).forEach(m => {
-        const div = document.createElement("div");
-        div.className = "materia bloqueada";
-        div.textContent = m.nombre;
-        div.dataset.id = m.id;
-        div.addEventListener("click", () => toggleMateria(m.id));
-        col.appendChild(div);
-      });
+      col.innerHTML = `<h4>Año ${nivel}</h4>`;
+      materias
+        .filter((m) => m.nivel === nivel)
+        .forEach((m) => {
+          const div = document.createElement("div");
+          div.className = "materia bloqueada";
+          div.textContent = m.nombre;
+          div.dataset.id = m.id;
+          div.addEventListener("click", () => toggleMateria(m.id));
+          col.appendChild(div);
+        });
       malla.appendChild(col);
     }
 
@@ -130,10 +168,17 @@
     }
 
     function actualizarCorrelativas() {
-      materias.forEach(m => {
+      materias.forEach((m) => {
         const el = document.querySelector(`[data-id='${m.id}']`);
         if (!el.classList.contains("aprobada")) {
-          if (!m.correlativas || m.correlativas.every(id => document.querySelector(`[data-id='${id}']`).classList.contains("aprobada"))) {
+          if (
+            !m.correlativas ||
+            m.correlativas.every((id) =>
+              document.querySelector(`[data-id='${id}']`).classList.contains(
+                "aprobada"
+              )
+            )
+          ) {
             el.classList.remove("bloqueada");
             el.classList.add("desbloqueada");
           } else {
