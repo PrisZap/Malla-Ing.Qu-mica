@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Malla Ingeniería Química</title>
   <style>
     body {
@@ -15,10 +15,10 @@
     }
     .anio h2 {
       font-size: 16px;
-      cursor: pointer;
-      margin: 10px 0 5px;
       color: #005577;
       user-select: none;
+      margin: 10px 0 5px;
+      cursor: default;
     }
     .materias {
       display: flex;
@@ -35,6 +35,8 @@
       user-select: none;
       transition: background-color 0.2s ease, text-decoration 0.2s ease, color 0.2s ease;
       border: 1px dashed #7bbadd;
+      min-width: 100px;
+      text-align: center;
     }
     .materia.activa {
       background-color: #7cc7f2; /* Activa */
@@ -77,7 +79,7 @@
     <h2>Tercer Año</h2>
     <div class="materias">
       <div class="materia" data-id="termo2">Termodinámica II</div>
-      <div class="materia" data-id="cinematica">Cinetica Química</div>
+      <div class="materia" data-id="cinematica">Cinética Química</div>
       <div class="materia" data-id="mate3">Matemática III</div>
       <div class="materia" data-id="procesos">Procesos Químicos</div>
       <div class="materia" data-id="electrica">Electrotecnia</div>
@@ -109,71 +111,15 @@
   <script>
     const materias = document.querySelectorAll('.materia');
 
-    window.addEventListener('DOMContentLoaded', () => {
-      // Cargar estados desde localStorage
-      materias.forEach(materia => {
-        const id = materia.dataset.id;
-        const estado = localStorage.getItem(`materia-${id}`);
-        if (estado === 'activa') {
-          materia.classList.add('activa');
-        } else if (estado === 'aprobada') {
-          materia.classList.add('activa', 'aprobada');
-        }
-      });
-    });
-
-    // Cambiar estado de materia individual
     materias.forEach(materia => {
       materia.addEventListener('click', () => {
-        const id = materia.dataset.id;
-
         if (!materia.classList.contains('activa')) {
           materia.classList.add('activa');
-          localStorage.setItem(`materia-${id}`, 'activa');
+          materia.classList.remove('aprobada');
         } else if (!materia.classList.contains('aprobada')) {
           materia.classList.add('aprobada');
-          localStorage.setItem(`materia-${id}`, 'aprobada');
         } else {
           materia.classList.remove('activa', 'aprobada');
-          localStorage.removeItem(`materia-${id}`);
-        }
-      });
-    });
-
-    // Funciones para activar o aprobar materias de un año
-    function activarMateriasDelAnio(numero) {
-      const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
-      const materiasAnio = contenedor.querySelectorAll('.materia');
-
-      materiasAnio.forEach(materia => {
-        const id = materia.dataset.id;
-        materia.classList.add('activa');
-        materia.classList.remove('aprobada');
-        localStorage.setItem(`materia-${id}`, 'activa');
-      });
-    }
-
-    function aprobarMateriasDelAnio(numero) {
-      const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
-      const materiasAnio = contenedor.querySelectorAll('.materia');
-
-      materiasAnio.forEach(materia => {
-        const id = materia.dataset.id;
-        materia.classList.add('activa', 'aprobada');
-        localStorage.setItem(`materia-${id}`, 'aprobada');
-      });
-    }
-
-    // Evento click para títulos de años
-    document.querySelectorAll('.anio').forEach(anio => {
-      const numero = anio.dataset.anio;
-      const titulo = anio.querySelector('h2');
-
-      titulo.addEventListener('click', (event) => {
-        if (event.shiftKey || event.ctrlKey) {
-          aprobarMateriasDelAnio(numero);
-        } else {
-          activarMateriasDelAnio(numero);
         }
       });
     });
