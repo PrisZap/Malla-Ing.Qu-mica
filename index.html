@@ -122,10 +122,10 @@
   </div>
 
   <script>
-    const materias = document.querySelectorAll('.materia');
-
-    // Cargar estados desde localStorage
     window.addEventListener('DOMContentLoaded', () => {
+      const materias = document.querySelectorAll('.materia');
+
+      // Cargar estados desde localStorage
       materias.forEach(materia => {
         const id = materia.dataset.id;
         const estado = localStorage.getItem(`materia-${id}`);
@@ -135,63 +135,63 @@
           materia.classList.add('activa', 'aprobada');
         }
       });
-    });
 
-    // Cambiar estado de materia individual
-    materias.forEach(materia => {
-      materia.addEventListener('click', () => {
-        const id = materia.dataset.id;
+      // Cambiar estado de materia individual
+      materias.forEach(materia => {
+        materia.addEventListener('click', () => {
+          const id = materia.dataset.id;
 
-        if (!materia.classList.contains('activa')) {
+          if (!materia.classList.contains('activa')) {
+            materia.classList.add('activa');
+            localStorage.setItem(`materia-${id}`, 'activa');
+          } else if (!materia.classList.contains('aprobada')) {
+            materia.classList.add('aprobada');
+            localStorage.setItem(`materia-${id}`, 'aprobada');
+          } else {
+            materia.classList.remove('activa', 'aprobada');
+            localStorage.removeItem(`materia-${id}`);
+          }
+        });
+      });
+
+      // Funciones para activar o aprobar materias de un año
+      function activarMateriasDelAnio(numero) {
+        const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
+        const materiasAnio = contenedor.querySelectorAll('.materia');
+
+        materiasAnio.forEach(materia => {
+          const id = materia.dataset.id;
           materia.classList.add('activa');
+          materia.classList.remove('aprobada');
           localStorage.setItem(`materia-${id}`, 'activa');
-        } else if (!materia.classList.contains('aprobada')) {
-          materia.classList.add('aprobada');
+        });
+      }
+
+      function aprobarMateriasDelAnio(numero) {
+        const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
+        const materiasAnio = contenedor.querySelectorAll('.materia');
+
+        materiasAnio.forEach(materia => {
+          const id = materia.dataset.id;
+          materia.classList.add('activa', 'aprobada');
           localStorage.setItem(`materia-${id}`, 'aprobada');
-        } else {
-          materia.classList.remove('activa', 'aprobada');
-          localStorage.removeItem(`materia-${id}`);
-        }
-      });
-    });
+        });
+      }
 
-    // Funciones para activar o aprobar materias de un año
-    function activarMateriasDelAnio(numero) {
-      const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
-      const materiasAnio = contenedor.querySelectorAll('.materia');
+      // Eventos para los botones circulares por año
+      document.querySelectorAll('.anio').forEach(anio => {
+        const numero = anio.dataset.anio;
 
-      materiasAnio.forEach(materia => {
-        const id = materia.dataset.id;
-        materia.classList.add('activa');
-        materia.classList.remove('aprobada');
-        localStorage.setItem(`materia-${id}`, 'activa');
-      });
-    }
+        const btnActiva = anio.querySelector('.boton-activa');
+        const btnAprueba = anio.querySelector('.boton-aprobada');
 
-    function aprobarMateriasDelAnio(numero) {
-      const contenedor = document.querySelector(`.anio[data-anio="${numero}"] .materias`);
-      const materiasAnio = contenedor.querySelectorAll('.materia');
+        btnActiva.addEventListener('click', () => {
+          activarMateriasDelAnio(numero);
+        });
 
-      materiasAnio.forEach(materia => {
-        const id = materia.dataset.id;
-        materia.classList.add('activa', 'aprobada');
-        localStorage.setItem(`materia-${id}`, 'aprobada');
-      });
-    }
-
-    // Eventos para los botones circulares por año
-    document.querySelectorAll('.anio').forEach(anio => {
-      const numero = anio.dataset.anio;
-
-      const btnActiva = anio.querySelector('.boton-activa');
-      const btnAprueba = anio.querySelector('.boton-aprobada');
-
-      btnActiva.addEventListener('click', () => {
-        activarMateriasDelAnio(numero);
-      });
-
-      btnAprueba.addEventListener('click', () => {
-        aprobarMateriasDelAnio(numero);
+        btnAprueba.addEventListener('click', () => {
+          aprobarMateriasDelAnio(numero);
+        });
       });
     });
   </script>
