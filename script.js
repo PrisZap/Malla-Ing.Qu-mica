@@ -1,75 +1,104 @@
-// Datos de ejemplo. Se puede reemplazar por los definitivos
-const materias = [
-  { codigo: "AMI", nombre: "Análisis Matemático I", anio: 1, creditos: 5, correlativas: [] },
-  { codigo: "AGA", nombre: "Álgebra y Geometría Analítica", anio: 1, creditos: 5, correlativas: [] },
-  { codigo: "FIS1", nombre: "Física I", anio: 1, creditos: 5, correlativas: ["AMI", "AGA"] },
-  { codigo: "QUI-GRAL", nombre: "Química General", anio: 1, creditos: 6, correlativas: [] },
-  { codigo: "IYS", nombre: "Ingeniería y Sociedad", anio: 1, creditos: 2, correlativas: [] },
-];
-
-const ESTADOS = ["desactivado", "activado", "aprobado"];
-
-function obtenerEstado(codigo) {
-  return localStorage.getItem(`materia_${codigo}`) || "desactivado";
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e5eaf5;
+    margin: 0;
+    padding: 0;
 }
 
-function guardarEstado(codigo, estado) {
-  localStorage.setItem(`materia_${codigo}`, estado);
+header {
+    background-color: #3f51b5;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 20px auto;
+    width: fit-content;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-function cambiarEstado(elem, codigo) {
-  let estadoActual = obtenerEstado(codigo);
-  let index = ESTADOS.indexOf(estadoActual);
-  let nuevoEstado = ESTADOS[(index + 1) % ESTADOS.length];
-  guardarEstado(codigo, nuevoEstado);
-  elem.className = `materia ${nuevoEstado}`;
-  actualizarResumen();
+#resumen-container {
+    background-color: #3f51b5;
+    color: white;
+    margin: 20px auto;
+    padding: 15px;
+    font-size: 1.1em;
+    border-radius: 10px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-function crearMateria(m) {
-  const div = document.createElement("div");
-  const estado = obtenerEstado(m.codigo);
-  div.className = `materia ${estado}`;
-  div.innerHTML = `
-    <strong>${m.nombre}</strong>
-    <div class="carga">${m.creditos} hs</div>
-  `;
-  div.onclick = () => cambiarEstado(div, m.codigo);
-  return div;
+#malla-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
 }
 
-function renderizarMalla() {
-  const malla = document.getElementById("malla-container");
-  malla.innerHTML = "";
-
-  const niveles = [...new Set(materias.map(m => m.anio))].sort((a, b) => a - b);
-  niveles.forEach(nivel => {
-    const divNivel = document.createElement("div");
-    divNivel.className = "nivel";
-    divNivel.innerHTML = `<h3>Año ${nivel}</h3>`;
-
-    const materiasDelNivel = materias.filter(m => m.anio === nivel);
-    materiasDelNivel.forEach(m => {
-      divNivel.appendChild(crearMateria(m));
-    });
-
-    malla.appendChild(divNivel);
-  });
-
-  actualizarResumen();
+.nivel {
+    background-color: #c3dafe;
+    padding: 10px;
+    border-radius: 10px;
+    width: 220px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-function actualizarResumen() {
-  let total = 0;
-  materias.forEach(m => {
-    if (obtenerEstado(m.codigo) === "aprobado") {
-      total += m.creditos;
-    }
-  });
-  const resumen = document.getElementById("resumen-container");
-  resumen.innerHTML = `Carga horaria acumulada: <strong>${total}</strong> horas`;
+.nivel h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #1e3a8a;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderizarMalla();
-});
+.materia {
+    background-color: #e0e7ff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 1px dotted #94a3b8;
+    font-weight: 500;
+}
+
+.materia:hover {
+    transform: scale(1.02);
+}
+
+.materia.activado {
+    background-color: #a5b4fc;
+    border: 2px solid #6366f1;
+}
+
+.materia.aprobado {
+    background-color: #86efac;
+    color: #065f46;
+    font-weight: bold;
+    border: 2px solid #22c55e;
+}
+
+.materia.aprobado strong {
+    text-decoration: line-through;
+    transform: rotate(-2deg);
+    display: inline-block;
+}
+
+.materia.desactivado {
+    background-color: #f1f5f9;
+    color: #64748b;
+    font-style: italic;
+}
+
+.materia .carga {
+    font-size: 0.85em;
+    margin-top: 4px;
+    color: #334155;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 0.8em;
+    color: #555;
+}
