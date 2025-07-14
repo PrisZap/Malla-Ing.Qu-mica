@@ -1,128 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Malla Ingeniería Química</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f5faff;
-      margin: 20px;
-    }
-    .anio {
-      margin-bottom: 20px;
-    }
-    .anio h2 {
-      font-size: 16px;
-      color: #005577;
-      user-select: none;
-      margin: 10px 0 5px;
-      cursor: default;
-    }
-    .materias {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .materia {
-      padding: 4px 8px;
-      border-radius: 20px;
-      font-size: 12px;
-      background-color: #d2ecf9; /* Inactiva */
-      color: #003344;
-      cursor: pointer;
-      user-select: none;
-      transition: background-color 0.2s ease, text-decoration 0.2s ease, color 0.2s ease;
-      border: 1px dashed #7bbadd;
-      min-width: 100px;
-      text-align: center;
-    }
-    .materia.activa {
-      background-color: #7cc7f2; /* Activa */
-      color: #002233;
-      border: 1px solid #349ddc;
-    }
-    .materia.aprobada {
-      text-decoration: line-through;
-      font-style: italic;
-      opacity: 0.85;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Interactiva Ingeniería Química</title>
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-  <h1>Malla de Ingeniería Química</h1>
+    <header>
+        <h1>Malla Interactiva de Ingeniería Química</h1>
+        <p id="progreso">Progreso: 0% | Horas acumuladas: 0</p>
+    </header>
 
-  <div class="anio" data-anio="1">
-    <h2>Primer Año</h2>
-    <div class="materias">
-      <div class="materia" data-id="mate1">Matemática I</div>
-      <div class="materia" data-id="quim1">Química General</div>
-      <div class="materia" data-id="fis1">Física I</div>
-      <div class="materia" data-id="intro">Introducción a la Ingeniería</div>
-      <div class="materia" data-id="comu1">Comunicación Técnica</div>
-    </div>
-  </div>
+    <div id="malla-container"></div>
 
-  <div class="anio" data-anio="2">
-    <h2>Segundo Año</h2>
-    <div class="materias">
-      <div class="materia" data-id="mate2">Matemática II</div>
-      <div class="materia" data-id="org1">Química Orgánica</div>
-      <div class="materia" data-id="fis2">Física II</div>
-      <div class="materia" data-id="termo1">Termodinámica I</div>
-      <div class="materia" data-id="calculo">Cálculo Diferencial</div>
-    </div>
-  </div>
-
-  <div class="anio" data-anio="3">
-    <h2>Tercer Año</h2>
-    <div class="materias">
-      <div class="materia" data-id="termo2">Termodinámica II</div>
-      <div class="materia" data-id="cinematica">Cinética Química</div>
-      <div class="materia" data-id="mate3">Matemática III</div>
-      <div class="materia" data-id="procesos">Procesos Químicos</div>
-      <div class="materia" data-id="electrica">Electrotecnia</div>
-    </div>
-  </div>
-
-  <div class="anio" data-anio="4">
-    <h2>Cuarto Año</h2>
-    <div class="materias">
-      <div class="materia" data-id="separacion">Operaciones de Separación</div>
-      <div class="materia" data-id="proyecto">Proyecto Final I</div>
-      <div class="materia" data-id="control">Control de Procesos</div>
-      <div class="materia" data-id="quimindus">Química Industrial</div>
-      <div class="materia" data-id="seguridad">Seguridad e Higiene</div>
-    </div>
-  </div>
-
-  <div class="anio" data-anio="5">
-    <h2>Quinto Año</h2>
-    <div class="materias">
-      <div class="materia" data-id="proyecto2">Proyecto Final II</div>
-      <div class="materia" data-id="gestion">Gestión Ambiental</div>
-      <div class="materia" data-id="optativa1">Materia Optativa I</div>
-      <div class="materia" data-id="optativa2">Materia Optativa II</div>
-      <div class="materia" data-id="tesis">Tesis</div>
-    </div>
-  </div>
-
-  <script>
-    const materias = document.querySelectorAll('.materia');
-
-    materias.forEach(materia => {
-      materia.addEventListener('click', () => {
-        if (!materia.classList.contains('activa')) {
-          materia.classList.add('activa');
-          materia.classList.remove('aprobada');
-        } else if (!materia.classList.contains('aprobada')) {
-          materia.classList.add('aprobada');
-        } else {
-          materia.classList.remove('activa', 'aprobada');
-        }
-      });
-    });
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
