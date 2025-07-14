@@ -1,7 +1,7 @@
 /* Fuente y color uniforme para todos los textos */
 body, h1, h3, p, strong, div {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #0f172a; /* Azul muy oscuro / casi negro */
+  color: #032b4a; /* Azul navy profundo */
 }
 
 body {
@@ -12,7 +12,7 @@ body {
 
 header {
   background-color: #3f51b5;
-  color: white; /* Header bien visible */
+  color: white;
   padding: 20px;
   text-align: center;
 }
@@ -36,7 +36,7 @@ header {
 .nivel-titulo p {
   font-size: 0.9em;
   margin-top: 5px;
-  color: #475569; /* Gris suave para subtítulo */
+  color: #475569;
 }
 
 /* Resumen de horas y progreso */
@@ -70,22 +70,25 @@ header {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Título del nivel con línea fina centrada */
 .nivel h3 {
   position: relative;
   margin-bottom: 12px;
   padding-bottom: 6px;
-  color: #0f172a; /* Azul oscuro casi negro */
+  color: #032b4a;
+  text-align: center;
 }
 
 .nivel h3::after {
   content: "";
   display: block;
-  width: 100%;
+  width: 60%;
   height: 1.5px;
-  background-color: #0f172a; /* Línea fina azul oscuro */
+  background-color: #032b4a;
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* Estilo de materias */
@@ -118,7 +121,7 @@ header {
   font-weight: bold;
 }
 
-/* Solo el texto se tacha e inclina */
+/* Texto de materia aprobada tachado e inclinado */
 .materia.aprobado strong {
   font-style: italic;
   text-decoration: line-through;
@@ -126,7 +129,7 @@ header {
   transform: skewX(-10deg);
 }
 
-/* Estilo unificado de créditos y resumen */
+/* Créditos / carga horaria */
 .carga {
   font-size: 0.95em;
   margin-top: 6px;
