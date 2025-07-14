@@ -1,7 +1,7 @@
 /* Fuente y color uniforme para todos los textos */
 body, h1, h3, p, strong, div {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #1e3a8a; /* Azul oscuro */
+  color: #0f172a; /* Azul muy oscuro / casi negro */
 }
 
 body {
@@ -12,7 +12,7 @@ body {
 
 header {
   background-color: #3f51b5;
-  color: white; /* Lo dejo blanco para que destaque el header */
+  color: white; /* Header bien visible */
   padding: 20px;
   text-align: center;
 }
@@ -36,7 +36,7 @@ header {
 .nivel-titulo p {
   font-size: 0.9em;
   margin-top: 5px;
-  color: #475569; /* Un gris suave para que el subtítulo quede menos fuerte */
+  color: #475569; /* Gris suave para subtítulo */
 }
 
 /* Resumen de horas y progreso */
@@ -71,9 +71,21 @@ header {
 }
 
 .nivel h3 {
-  text-align: center;
-  margin-bottom: 10px;
-  /* Color azul oscuro ya aplicado globalmente */
+  position: relative;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  color: #0f172a; /* Azul oscuro casi negro */
+}
+
+.nivel h3::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background-color: #0f172a; /* Línea fina azul oscuro */
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 /* Estilo de materias */
