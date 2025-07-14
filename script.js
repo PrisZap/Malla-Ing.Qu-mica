@@ -61,15 +61,24 @@ function renderizarMalla() {
 
 
 function actualizarResumen() {
-  let total = 0;
+  let totalAprobado = 0;
+  let totalCreditos = 0;
+
   materias.forEach(m => {
+    totalCreditos += m.creditos;
     if (obtenerEstado(m.codigo) === "aprobado") {
-      total += m.creditos;
+      totalAprobado += m.creditos;
     }
   });
+
+  const porcentaje = ((totalAprobado / totalCreditos) * 100).toFixed(1);
   const resumen = document.getElementById("resumen-container");
-  resumen.innerHTML = `Carga horaria acumulada: <strong>${total}</strong> horas`;
+  resumen.innerHTML = `
+    Carga horaria acumulada: <strong>${totalAprobado}</strong> horas<br/>
+    Progreso: <strong>${porcentaje}%</strong>
+  `;
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   renderizarMalla();
