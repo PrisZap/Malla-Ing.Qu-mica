@@ -1,0 +1,95 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e5eaf5;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #3f51b5;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+#resumen-container {
+    background-color: #d6e4ff;
+    border-left: 5px solid #3f51b5;
+    margin: 20px;
+    padding: 15px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    max-width: 500px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#malla-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.nivel {
+    background-color: #c3dafe;
+    padding: 10px;
+    border-radius: 10px;
+    width: 220px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.nivel h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #1e3a8a;
+}
+
+.materia {
+    background-color: #e0e7ff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 1px dotted #94a3b8;
+    font-weight: 500;
+}
+
+.materia:hover {
+    transform: scale(1.02);
+}
+
+.materia.activado {
+    background-color: #a5b4fc;
+    border: 2px solid #6366f1;
+}
+
+.materia.aprobado {
+    background-color: #86efac;
+    color: #065f46;
+    font-weight: bold;
+    border: 2px solid #22c55e;
+}
+
+.materia.desactivado {
+    background-color: #f1f5f9;
+    color: #64748b;
+    font-style: italic;
+}
+
+.materia .carga {
+    font-size: 0.85em;
+    margin-top: 4px;
+    color: #334155;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 0.8em;
+    color: #555;
+}
