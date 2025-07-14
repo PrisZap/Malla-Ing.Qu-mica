@@ -97,16 +97,19 @@ header {
 
 .materia.aprobado {
     background-color: #86efac;
+    border: 2px solid #22c55e;
     color: #065f46;
     font-weight: bold;
-    border: 2px solid #22c55e;
 }
 
+/* Solo el texto se tacha e inclina */
 .materia.aprobado strong {
+    font-style: italic;
     text-decoration: line-through;
-    transform: rotate(-2deg);
     display: inline-block;
+    transform: skewX(-10deg); /* se ve en diagonal, pero sutil */
 }
+
 
 /* Estilo unificado de créditos y resumen */
 .carga {
