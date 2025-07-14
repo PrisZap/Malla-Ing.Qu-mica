@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Malla Interactiva Ingeniería Química</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="estilos.css" />
 </head>
 <body>
     <header>
         <h1>Malla Interactiva de Ingeniería Química</h1>
     </header>
 
-    <section id="progreso-container">
-        <div id="progreso">Progreso: 0% | Horas acumuladas: 0</div>
-    </section>
+    <!-- Este div es el que el JS usa para mostrar la carga horaria -->
+    <div id="resumen-container"></div>
 
+    <!-- Aquí se renderizan las materias por año -->
     <div id="malla-container"></div>
 
     <script src="script.js"></script>
