@@ -46,7 +46,7 @@ function renderizarMalla() {
   niveles.forEach(nivel => {
     const divNivel = document.createElement("div");
     divNivel.className = "nivel";
-    divNivel.innerHTML = `<h3>Año ${nivel}</h3>`;
+    divNivel.innerHTML = `<h3>${nivel}° Nivel</h3>`;
 
     const materiasDelNivel = materias.filter(m => m.anio === nivel);
     materiasDelNivel.forEach(m => {
@@ -58,6 +58,7 @@ function renderizarMalla() {
 
   actualizarResumen();
 }
+
 
 function actualizarResumen() {
   let total = 0;
