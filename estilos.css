@@ -193,6 +193,7 @@ footer {
   align-content: flex-start;
   width: 440px;        /* Doble del tamaño normal */
   min-width: 440px;    /* Para mantenerlo en el scroll horizontal */
+  position: relative;
 }
 
 .nivel.electivas-dos-columnas .materia {
