@@ -198,3 +198,6 @@ footer {
   flex: 1 1 calc(50% - 10px); /* 2 columnas */
   box-sizing: border-box;
 }
+.materia strong {
+  font-size: 1.05em;
+}
