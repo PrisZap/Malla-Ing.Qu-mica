@@ -210,7 +210,7 @@ function actualizarResumen() {
     <h3>Resumen de Progreso</h3>
     <p><strong>Carga Horaria:</strong> ${aprobadas} / ${totalCreditos} horas</p>
     <p><strong>Carga Horaria Electivas:</strong> ${aprobadasElectivas} / ${totalElectivas} horas</p>
-    <p><strong>Progreso sin El.:</strong> ${porcentaje}%</p>
+    <p><strong>Progreso sin El:</strong> ${porcentaje}%</p>
   `;
 }
 
