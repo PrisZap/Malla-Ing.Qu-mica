@@ -91,7 +91,7 @@ function cambiarEstado(elem, codigo) {
   let estadoActual = obtenerEstado(codigo);
   let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
 
-  // Bloqueo para ACTIVAR sin tener habilitación
+  // Bloqueo para ACTIVAR sin habilitación
   if (nuevoEstado === "activado" && !estaHabilitada(materia)) {
     const correlativasFaltantes = materia.correlativas
       .filter(cod => obtenerEstado(cod) !== "aprobado")
@@ -104,7 +104,7 @@ function cambiarEstado(elem, codigo) {
     return;
   }
 
-  // Bloqueo para APROBAR sin tener habilitación
+  // Bloqueo para APROBAR sin habilitación
   if (nuevoEstado === "aprobado" && !estaHabilitada(materia)) {
     const correlativasFaltantes = materia.correlativas
       .filter(cod => obtenerEstado(cod) !== "aprobado")
@@ -160,9 +160,9 @@ function renderizarMalla() {
     malla.appendChild(divNivel);
   });
 
-const divElectivas = document.createElement("div");
-divElectivas.className = "nivel electivas-dos-columnas";
-divElectivas.innerHTML = `<h3>Electivas</h3>`;
+  const divElectivas = document.createElement("div");
+  divElectivas.className = "nivel electivas-dos-columnas";
+  divElectivas.innerHTML = `<h3>Electivas</h3>`;
   electivas.forEach(e => {
     const estado = obtenerEstadoElectiva(e.nombre);
     const div = document.createElement("div");
@@ -205,26 +205,27 @@ function sincronizarScroll() {
     barra.scrollLeft = malla.scrollLeft;
   });
 }
+
 function mostrarModal(titulo, mensaje) {
   const existente = document.getElementById("modal-correlativas");
   if (existente) existente.remove();
 
-  const modalFondo = document.createElement("div");
-  modalFondo.id = "modal-correlativas";
-  modalFondo.className = "modal-fondo"; // importante para el centrado
+  const modal = document.createElement("div");
+  modal.id = "modal-correlativas";
+  modal.className = "modal";
 
-  modalFondo.innerHTML = `
-    <div class="modal">
+  modal.innerHTML = `
+    <div class="modal-contenido">
       <span class="modal-cerrar" onclick="document.getElementById('modal-correlativas').remove()">&times;</span>
-      <h2>${titulo}</h2>
+      <h3>${titulo}</h3>
       <p>${mensaje}</p>
     </div>
   `;
 
-  document.body.appendChild(modalFondo);
+  document.body.appendChild(modal);
 }
-document.addEventListener("DOMContentLoaded", renderizarMalla);
-// Cerrar modal con Escape o clic afuera
+
+// Eventos para cerrar modal con Escape o clic afuera
 document.addEventListener("keydown", function(e) {
   if (e.key === "Escape") {
     const modal = document.getElementById("modal-correlativas");
@@ -238,3 +239,5 @@ document.addEventListener("click", function(e) {
     modal.remove();
   }
 });
+
+document.addEventListener("DOMContentLoaded", renderizarMalla);
