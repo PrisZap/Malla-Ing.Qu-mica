@@ -88,16 +88,13 @@ function cambiarEstado(elem, codigo) {
   const materia = materias.find(m => m.codigo === codigo);
   if (!materia) return;
 
-  const estadoActual = obtenerEstado(codigo);
-  const nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
+  let estadoActual = obtenerEstado(codigo);
+  let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
 
-  if ((nuevoEstado === "activado" || nuevoEstado === "aprobado") && !estaHabilitada(materia)) {
+  if (nuevoEstado === "aprobado" && !estaHabilitada(materia)) {
     const correlativasFaltantes = materia.correlativas
       .filter(cod => obtenerEstado(cod) !== "aprobado")
-      .map(cod => {
-        const mat = materias.find(m => m.codigo === cod);
-        return mat ? mat.nombre : `Código desconocido (${cod})`;
-      })
+      .map(cod => materias.find(m => m.codigo === cod)?.nombre || cod)
       .join("<br>• ");
 
     mostrarModal(
