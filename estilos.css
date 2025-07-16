@@ -52,23 +52,22 @@ header {
   margin-right: auto;
 }
 
-/* Contenedor de niveles - AHORA HORIZONTAL SIN SALTOS DE LINEA */
-#malla-container {
-  display: flex;
-  flex-wrap: nowrap;      /* <-- clave para que no salte a otra línea */
-  justify-content: flex-start;
-  gap: 20px;
-  padding: 20px;
-  overflow-x: auto;       /* <-- barra horizontal si no entran */
-}
-
-/* Contenedor electivas también horizontal */
-#electivas-container {
+/* CONTENEDOR GENERAL DE MALLA + ELECTIVAS EN FILA CON SCROLL */
+#main-grid {
   display: flex;
   flex-wrap: nowrap;
   gap: 20px;
   padding: 20px;
-  overflow-x: auto;
+  overflow-x: auto; /* scroll horizontal para todo el contenedor */
+}
+
+/* CONTENEDORES HIJOS APILADOS VERTICALMENTE */
+#malla-container, #electivas-container {
+  flex: 0 0 auto; /* tamaño fijo, no crecen ni encogen */
+  display: flex;
+  flex-direction: column; /* cuadros verticales dentro */
+  gap: 20px;
+  max-width: 500px; /* ajusta según tu preferencia */
 }
 
 /* Estilo de cada nivel */
@@ -78,7 +77,7 @@ header {
   border-radius: 10px;
   width: 220px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  flex: 0 0 auto;         /* para que no cambien tamaño */
+  flex: 0 0 auto;
 }
 
 /* Título del nivel con línea fina centrada */
