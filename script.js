@@ -1,7 +1,5 @@
 // Datos definitivos de materias de Ingeniería Química
 const materias = [
-  { codigo: "00", nombre: "Introd. A la Vida Universitaria (IVU)", anio: 0, creditos: 0, correlativas: [] },
-  { codigo: "0", nombre: "Matematica", anio: 0, creditos: 0, correlativas: [] },
   { codigo: "1", nombre: "Quimica General", anio: 1, creditos: 5, correlativas: [] },
   { codigo: "2", nombre: "Analisis Matematico I", anio: 1, creditos: 5, correlativas: [] },
   { codigo: "3", nombre: "Fisica I", anio: 1, creditos: 5, correlativas: [] },
