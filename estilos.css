@@ -177,12 +177,14 @@ footer {
   height: 1px;
 }
 .nivel.electivas-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  align-items: start;
+  align-items: flex-start;
+  max-height: none;
 }
 
-.nivel.electivas-grid h3 {
-  grid-column: 1 / -1;
+.nivel.electivas-grid > .materia {
+  flex: 1 1 calc(50% - 10px); /* 2 columnas */
+  box-sizing: border-box;
 }
