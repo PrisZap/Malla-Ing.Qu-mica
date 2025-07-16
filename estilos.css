@@ -10,19 +10,20 @@ body {
 }
 
 header {
-  background-color: #3f51b5;
+  background-color: transparent;
   color: white;
-  padding: 20px;
+  padding: 0;
+  text-align: center;
+}
+.nivel-titulo {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 10px auto 0;
+  max-width: none;
   text-align: center;
 }
 
-.nivel-titulo {
-  padding: 0;
-  margin: 30px auto 10px;
-  text-align: center;
-  background: none;
-  box-shadow: none;
-}
 
 .nivel-titulo h1 {
   margin: 0;
