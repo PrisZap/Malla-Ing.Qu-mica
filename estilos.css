@@ -176,15 +176,10 @@ footer {
 #scroll-contenido {
   height: 1px;
 }
-.nivel.electivas-grid {
+#malla-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: flex-start;
-  max-height: none;
-}
-
-.nivel.electivas-grid > .materia {
-  flex: 1 1 calc(50% - 10px); /* 2 columnas */
-  box-sizing: border-box;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 20px;
 }
