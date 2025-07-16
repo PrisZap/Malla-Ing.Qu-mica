@@ -209,18 +209,19 @@ function mostrarModal(titulo, mensaje) {
   const existente = document.getElementById("modal-correlativas");
   if (existente) existente.remove();
 
-  const modal = document.createElement("div");
-  modal.id = "modal-correlativas";
-  modal.id = "modal-fondo";
-  modal.innerHTML = `
-    <div class="id="modal"">
+  const modalFondo = document.createElement("div");
+  modalFondo.id = "modal-correlativas";
+  modalFondo.className = "modal-fondo"; // importante para el centrado
+
+  modalFondo.innerHTML = `
+    <div class="modal">
       <span class="modal-cerrar" onclick="document.getElementById('modal-correlativas').remove()">&times;</span>
-      <h3>${titulo}</h3>
+      <h2>${titulo}</h2>
       <p>${mensaje}</p>
     </div>
   `;
-  document.body.appendChild(modal);
-  modal.style.display = "block";
+
+  document.body.appendChild(modalFondo);
 }
 document.addEventListener("DOMContentLoaded", renderizarMalla);
 // Cerrar modal con Escape o clic afuera
