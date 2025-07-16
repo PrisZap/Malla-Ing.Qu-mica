@@ -186,9 +186,9 @@ function actualizarResumen() {
 
   document.getElementById("resumen-container").innerHTML = `
     <h3>Resumen de Progreso</h3>
-    <p><strong>Carga Horaria Total Obligatoria:</strong> ${aprobadas} / ${totalCreditos} horas</p>
-    <p><strong>Carga Horaria Total Electivas:</strong> ${aprobadasElectivas} / ${totalElectivas} horas</p>
-    <p><strong>Progreso en Obligatorias:</strong> ${porcentaje}%</p>
+    <p><strong>Carga Horaria:</strong> ${aprobadas} / ${totalCreditos} horas</p>
+    <p><strong>Carga Horaria Electivas:</strong> ${aprobadasElectivas} / ${totalElectivas} horas</p>
+    <p><strong>Progreso sin El.:</strong> ${porcentaje}%</p>
   `;
 }
 
