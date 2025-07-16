@@ -42,27 +42,26 @@ const materias = [
   { codigo: "40", nombre: "Procesos Biotecnologicos", anio: 5, creditos: 3, correlativas: ["17","20","19","23","11","14","15"] },
   { codigo: "41", nombre: "Proyecto Final", anio: 5, creditos: 4, correlativas: ["27","31","32","34","29","33","17","20","19","25","28"] },
   { codigo: "42", nombre: "Practica Profesional Supervisada", anio: 5, creditos: 0, correlativas: ["27","31","32","34","29","33","17","20","19","25","28"] },
-
-  // Electivas
-  { codigo: "E1", nombre: "Comunicación Lingüística (1° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E2", nombre: "Practicas de Laboratorio (2° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E3", nombre: "Quimica Analitica Aplicada (4° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E4", nombre: "Quimica de los Alimentos (4° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E5", nombre: "Metodos Tradicionales de Preservacion de Alimentos (5° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E6", nombre: "Metodos Emergentes de Preservacion de Alimentos (5° año)", anio: 99, creditos: 5, correlativas: [] },
-  { codigo: "E7", nombre: "Gestion Ambiental (5° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E8", nombre: "Higiene y Seguridad en el Trabajo (5° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E9", nombre: "Gestion de Recursos Humanos (5° año)", anio: 99, creditos: 5, correlativas: [] },
-  { codigo: "E10", nombre: "Formacion de Emprendedores (5° año)", anio: 99, creditos: 8, correlativas: [] },
-  { codigo: "E11", nombre: "Tecnologia de los Alimentos (5° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E12", nombre: "Ingenieria de las Instalaciones (5° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E13", nombre: "Gestion de Residuos (5° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E14", nombre: "Energias Renovables (5° año)", anio: 99, creditos: 6, correlativas: [] },
-  { codigo: "E15", nombre: "Sociologia del Trabajo (5° año)", anio: 99, creditos: 4, correlativas: [] },
-  { codigo: "E16", nombre: "Administracion de Negocios (5° año)", anio: 99, creditos: 5, correlativas: [] },
 ];
 
-// Resto del código igual (no modificado)
+const electivas = [
+  { nombre: "Comunicación Lingüística", anio: 1, creditos: 6 },
+  { nombre: "Practicas de Laboratorio", anio: 2, creditos: 6 },
+  { nombre: "Quimica Analitica Aplicada", anio: 4, creditos: 6 },
+  { nombre: "Quimica de los Alimentos", anio: 4, creditos: 6 },
+  { nombre: "Metodos Tradicionales de Preservacion de Alimentos", anio: 5, creditos: 6 },
+  { nombre: "Metodos Emergentes de Preservacion de Alimentos", anio: 5, creditos: 5 },
+  { nombre: "Gestion Ambiental", anio: 5, creditos: 6 },
+  { nombre: "Higiene y Seguridad en el Trabajo", anio: 5, creditos: 6 },
+  { nombre: "Gestion de Recursos Humanos", anio: 5, creditos: 5 },
+  { nombre: "Formacion de Emprendedores", anio: 5, creditos: 8 },
+  { nombre: "Tecnologia de los Alimentos", anio: 5, creditos: 6 },
+  { nombre: "Ingenieria de las Instalaciones", anio: 5, creditos: 6 },
+  { nombre: "Gestion de Residuos", anio: 5, creditos: 6 },
+  { nombre: "Energias Renovables", anio: 5, creditos: 6 },
+  { nombre: "Sociologia del Trabajo", anio: 5, creditos: 4 },
+  { nombre: "Administracion de Negocios", anio: 5, creditos: 5 },
+];
 
 const ESTADOS = ["desactivado", "activado", "aprobado"];
 
@@ -103,7 +102,7 @@ function renderizarMalla() {
   niveles.forEach(nivel => {
     const divNivel = document.createElement("div");
     divNivel.className = "nivel";
-    divNivel.innerHTML = `<h3>${nivel === 99 ? "Electivas" : nivel + "° Nivel"}</h3>`;
+    divNivel.innerHTML = `<h3>${nivel}° Nivel</h3>`;
 
     const materiasDelNivel = materias.filter(m => m.anio === nivel);
     materiasDelNivel.forEach(m => {
@@ -112,6 +111,20 @@ function renderizarMalla() {
 
     malla.appendChild(divNivel);
   });
+
+  // Cuadro Electivas
+  const divElectivas = document.createElement("div");
+  divElectivas.className = "nivel";
+  divElectivas.innerHTML = `<h3>Electivas</h3>`;
+
+  electivas.forEach(e => {
+    const div = document.createElement("div");
+    div.className = "materia";
+    div.innerHTML = `<strong>${e.nombre}</strong><div class="carga">${e.creditos} hs - Año ${e.anio}</div>`;
+    divElectivas.appendChild(div);
+  });
+
+  malla.appendChild(divElectivas);
 
   actualizarResumen();
 }
