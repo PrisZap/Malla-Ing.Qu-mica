@@ -63,21 +63,21 @@ header {
 
 /* CONTENEDORES HIJOS APILADOS VERTICALMENTE */
 #malla-container, #electivas-container {
-  flex: 0 0 auto; /* tamaño fijo, no crecen ni encogen */
   display: flex;
-  flex-direction: column; /* cuadros verticales dentro */
+  flex-direction: column;
+  flex: 0 0 auto;
   gap: 20px;
-  max-width: 500px; /* ajusta según tu preferencia */
+  max-width: 500px; /* Ajusta este valor si querés cuadros más anchos o estrechos */
 }
 
 /* Estilo de cada nivel */
 .nivel {
+  width: 220px;
+  flex: 0 0 auto;
   background-color: #c3dafe;
   padding: 10px;
   border-radius: 10px;
-  width: 220px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  flex: 0 0 auto;
 }
 
 /* Título del nivel con línea fina centrada */
@@ -155,9 +155,12 @@ footer {
 
 /* ---------- Nuevo estilo para cuadro Electivas ---------- */
 .nivel-electivas {
-  align-self: flex-start;
   width: 220px;
-  background-color: #ffe0e0;
-  order: 99;  /* Para que quede al final de la fila */
   flex: 0 0 auto;
+  background-color: #ffe0e0;
+  align-self: flex-start;
+  order: 99;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
