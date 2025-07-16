@@ -62,6 +62,9 @@ const electivas = [
   { nombre: "Administracion de Negocios", anio: 5, creditos: 5 },
 ];
 
+// [ ... Mantén tu arreglo de materias y electivas igual ... ]
+// Y tus funciones obtenerEstado(), guardarEstado(), etc.
+
 const ESTADOS = ["desactivado", "activado", "aprobado"];
 
 function obtenerEstado(codigo) {
@@ -83,17 +86,26 @@ function guardarEstadoElectiva(nombre, estado) {
 function cambiarEstado(elem, codigo) {
   let estadoActual = obtenerEstado(codigo);
   let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
+
+  if (nuevoEstado === "aprobado") {
+    const materia = materias.find(m => m.codigo === codigo);
+    const noAprobadas = materia.correlativas.filter(cor => obtenerEstado(cor) !== "aprobado");
+
+    if (noAprobadas.length > 0) {
+      alert("No podés aprobar esta materia sin aprobar todas sus correlativas.");
+      return;
+    }
+  }
+
   guardarEstado(codigo, nuevoEstado);
-  elem.className = `materia ${nuevoEstado}`;
-  actualizarResumen();
+  renderizarMalla(); // actualiza clases y resumen
 }
 
 function cambiarEstadoElectiva(elem, nombre) {
   let estadoActual = obtenerEstadoElectiva(nombre);
   let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
   guardarEstadoElectiva(nombre, nuevoEstado);
-  elem.className = `materia electiva ${nuevoEstado}`;
-  actualizarResumen();
+  renderizarMalla();
 }
 
 function renderizarMalla() {
@@ -104,14 +116,30 @@ function renderizarMalla() {
     const divNivel = document.createElement("div");
     divNivel.className = "nivel";
     divNivel.innerHTML = `<h3>${nivel}° Nivel</h3>`;
+
     materias.filter(m => m.anio === nivel).forEach(m => {
       const estado = obtenerEstado(m.codigo);
       const div = document.createElement("div");
       div.className = `materia ${estado}`;
+
+      // Habilitada si todas las correlativas están aprobadas y aún no está aprobada
+      if (estado !== "aprobado" && m.correlativas.every(c => obtenerEstado(c) === "aprobado")) {
+        div.classList.add("habilitada");
+      }
+
+      // Mostrar tooltip con correlativas
+      if (m.correlativas.length > 0) {
+        const nombres = m.correlativas
+          .map(c => materias.find(mat => mat.codigo === c)?.nombre || "")
+          .join(", ");
+        div.title = `Correlativas: ${nombres}`;
+      }
+
       div.innerHTML = `<strong>${m.nombre}</strong><div class="carga">${m.creditos} hs</div>`;
       div.onclick = () => cambiarEstado(div, m.codigo);
       divNivel.appendChild(div);
     });
+
     malla.appendChild(divNivel);
   });
 
@@ -127,6 +155,7 @@ function renderizarMalla() {
     divElectivas.appendChild(div);
   });
   malla.appendChild(divElectivas);
+
   actualizarResumen();
 }
 
@@ -148,3 +177,4 @@ function actualizarResumen() {
 }
 
 document.addEventListener("DOMContentLoaded", renderizarMalla);
+
