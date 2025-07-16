@@ -92,7 +92,24 @@ function cambiarEstado(elem, codigo) {
   let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
 
   if (nuevoEstado === "aprobado" && !estaHabilitada(materia)) {
-    alert("No podés aprobar esta materia sin tener todas las correlativas aprobadas.");
+    // Mostrar modal con correlativas faltantes
+    const correlativasFaltantes = materia.correlativas
+      .filter(cod => obtenerEstado(cod) !== "aprobado")
+      .map(c => materias.find(mat => mat.codigo === c)?.nombre || c)
+      .join(", ");
+
+    mostrarModal(
+      "Correlativas Faltantes",
+      `Para aprobar <strong>${materia.nombre}</strong>, primero debés aprobar: <br><em>${correlativasFaltantes}</em>.`
+    );
+    return;
+  }
+
+  if (nuevoEstado === "activado" && !estaHabilitada(materia)) {
+    mostrarModal(
+      "No habilitada",
+      `No podés activar <strong>${materia.nombre}</strong> aún. Faltan aprobar sus correlativas.`
+    );
     return;
   }
 
@@ -184,5 +201,22 @@ function sincronizarScroll() {
     barra.scrollLeft = malla.scrollLeft;
   });
 }
+function mostrarModal(titulo, mensaje) {
+  // Si ya existe, lo borra
+  const existente = document.getElementById("modal-correlativas");
+  if (existente) existente.remove();
 
+  const modal = document.createElement("div");
+  modal.id = "modal-correlativas";
+  modal.className = "modal";
+  modal.innerHTML = `
+    <div class="modal-contenido">
+      <span class="modal-cerrar" onclick="document.getElementById('modal-correlativas').remove()">&times;</span>
+      <h3>${titulo}</h3>
+      <p>${mensaje}</p>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.style.display = "block";
+}
 document.addEventListener("DOMContentLoaded", renderizarMalla);
