@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Malla Interactiva Ingeniería Química</title>
-    <link rel="stylesheet" href="estilos.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Malla Interactiva Ingeniería Química</title>
+  <link rel="stylesheet" href="estilos.css" />
 </head>
 <body>
-    <header>
-        <div class="nivel-titulo">
-            <h1>Ingeniería Química - UTN</h1>
-            <p>por: Prisca Zapata</p>
-        </div>
-    </header>
+  <header>
+    <div class="nivel-titulo">
+      <h1>Ingeniería Química - UTN</h1>
+      <p>por: Prisca Zapata</p>
+    </div>
+  </header>
 
-    <div id="auth-buttons" style="margin: 10px;">
-  <button id="btn-login">Iniciar sesión con Google</button>
-  <button id="btn-logout" style="display:none;">Cerrar sesión</button>
-</div>
+  <!-- 🔐 Botones de login/logout -->
+  <div id="auth-buttons" style="margin: 10px;">
+    <button id="btn-login">Iniciar sesión con Google</button>
+    <button id="btn-logout" style="display:none;">Cerrar sesión</button>
+  </div>
 
-    <div id="resumen-container"></div>
-    <div id="scroll-wrapper">
-  <div id="malla-container"></div>
-  <div id="scrollbar-flotante"><div id="scroll-contenido"></div></div>
-</div>
+  <div id="resumen-container"></div>
+  <div id="scroll-wrapper">
+    <div id="malla-container"></div>
+    <div id="scrollbar-flotante"><div id="scroll-contenido"></div></div>
+  </div>
 
-
-<script type="module" src="script.js"></script>
-
+  <script type="module" src="script.js"></script>
 </body>
 </html>
