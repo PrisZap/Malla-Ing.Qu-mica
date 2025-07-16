@@ -20,6 +20,28 @@
   <div id="scrollbar-flotante"><div id="scroll-contenido"></div></div>
 </div>
 
+<!-- Firebase SDKs desde CDN -->
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+<!-- Inicialización de Firebase -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAr_lGMDEvy78DMKkiVne2XV-UVIKMkVH0",
+    authDomain: "malla-ingenieria-quimica.firebaseapp.com",
+    projectId: "malla-ingenieria-quimica",
+    storageBucket: "malla-ingenieria-quimica.firebasestorage.app",
+    messagingSenderId: "112506736759",
+    appId: "1:112506736759:web:1790d4f36dce3d1d183672"
+  };
+
+  // Inicializar Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Guardamos una referencia global para usar luego
+  const db = firebase.firestore();
+</script>
 
     <script src="script.js"></script>
 
