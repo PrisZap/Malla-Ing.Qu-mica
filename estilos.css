@@ -65,18 +65,19 @@ header {
 
 .nivel {
   background-color: #c3dafe;
-  padding: 12px 15px;
-  border-radius: 10px;
-  width: 240px;
-  min-width: 240px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  padding: 10px 10px 12px;
+  border-radius: 8px;
+  width: 220px;
+  min-width: 220px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
+  border: 1px solid #77a0c7; /* borde sólido nuevo */
 }
 
 .nivel h3 {
-  font-size: 1.3em;
+  font-size: 1.2em;
   margin-bottom: 10px;
   padding-bottom: 6px;
   color: #032b4a;
@@ -87,13 +88,12 @@ header {
 .nivel h3::after {
   content: "";
   display: block;
-  width: 60%;
+  width: 100%; /* ahora ocupa todo el ancho */
   height: 1.5px;
-  background-color: #032b4a;
+  background-color: #77a0c7; /* línea más clara */
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
 }
 
 .materia {
