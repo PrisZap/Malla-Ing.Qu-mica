@@ -1,3 +1,23 @@
+// 🔥 Firebase + Auth
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// 🚀 Configuración de Firebase (poné tu config real acá)
+const firebaseConfig = {
+  apiKey: "AIzaSyAw9HiYLp-qzy4dh65u0IG-qDvtJdoGi3s",
+  authDomain: "malla-ing-quimica.firebaseapp.com",
+  projectId: "malla-ing-quimica",
+  storageBucket: "malla-ing-quimica.firebasestorage.app",
+  messagingSenderId: "82682158625",
+  appId: "1:82682158625:web:00839d1837b6f303268d60"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let usuarioActual = null;
+
 const materias = [
   { codigo: "1", nombre: "Quimica General", anio: 1, creditos: 5, correlativas: [] },
   { codigo: "2", nombre: "Analisis Matematico I", anio: 1, creditos: 5, correlativas: [] },
@@ -70,6 +90,7 @@ function obtenerEstado(codigo) {
 
 function guardarEstado(codigo, estado) {
   localStorage.setItem(`materia_${codigo}`, estado);
+  guardarProgresoEnFirestore();
 }
 
 function obtenerEstadoElectiva(nombre) {
@@ -78,6 +99,7 @@ function obtenerEstadoElectiva(nombre) {
 
 function guardarEstadoElectiva(nombre, estado) {
   localStorage.setItem(`electiva_${nombre}`, estado);
+  guardarProgresoEnFirestore();
 }
 
 function estaHabilitada(materia) {
@@ -237,6 +259,50 @@ document.addEventListener("click", function(e) {
   const modal = document.getElementById("modal-correlativas");
   if (modal && e.target === modal) {
     modal.remove();
+  }
+});
+async function guardarProgresoEnFirestore() {
+  if (!usuarioActual) return;
+
+  const estadosMaterias = {};
+  materias.forEach(m => estadosMaterias[m.codigo] = obtenerEstado(m.codigo));
+  electivas.forEach(e => estadosMaterias[e.nombre] = obtenerEstadoElectiva(e.nombre));
+
+  await setDoc(doc(db, "progresos", usuarioActual.uid), estadosMaterias);
+}
+
+async function cargarProgresoDesdeFirestore() {
+  if (!usuarioActual) return;
+
+  const docSnap = await getDoc(doc(db, "progresos", usuarioActual.uid));
+  if (docSnap.exists()) {
+    const datos = docSnap.data();
+    for (let codigo in datos) {
+      if (materias.find(m => m.codigo === codigo)) {
+        localStorage.setItem(`materia_${codigo}`, datos[codigo]);
+      } else {
+        localStorage.setItem(`electiva_${codigo}`, datos[codigo]);
+      }
+    }
+  }
+}
+
+function iniciarSesionConGoogle() {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider).catch(err => {
+    console.error("Error en login", err);
+    alert("Hubo un problema al iniciar sesión.");
+  });
+}
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    usuarioActual = user;
+    await cargarProgresoDesdeFirestore();
+    renderizarMalla();
+  } else {
+    usuarioActual = null;
+    renderizarMalla(); // mostrar estado local por si no quiere loguearse
   }
 });
 
