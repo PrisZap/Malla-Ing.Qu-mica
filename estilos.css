@@ -1,7 +1,6 @@
-/* Fuente y color uniforme para todos los textos */
 body, h1, h3, p, strong, div {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #032b4a; /* Azul navy profundo */
+  color: #032b4a;
 }
 
 body {
@@ -17,7 +16,6 @@ header {
   text-align: center;
 }
 
-/* Estilo del título principal */
 .nivel-titulo {
   background-color: #c3dafe;
   padding: 15px;
@@ -39,7 +37,6 @@ header {
   color: #475569;
 }
 
-/* Resumen de horas y progreso */
 #resumen-container {
   background-color: #d6e4ff;
   border-left: 5px solid #3f51b5;
@@ -52,25 +49,24 @@ header {
   margin-right: auto;
 }
 
-/* Contenedor de niveles */
 #malla-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 20px;
   padding: 20px;
 }
 
-/* Estilo de cada nivel */
 .nivel {
   background-color: #c3dafe;
   padding: 10px;
   border-radius: 10px;
   width: 220px;
+  min-width: 220px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
-/* Título del nivel con línea fina centrada */
 .nivel h3 {
   position: relative;
   margin-bottom: 12px;
@@ -91,7 +87,6 @@ header {
   transform: translateX(-50%);
 }
 
-/* Estilo de materias */
 .materia {
   background-color: #e0e7ff;
   padding: 10px;
@@ -108,7 +103,6 @@ header {
   transform: scale(1.02);
 }
 
-/* Estados de materias */
 .materia.activado {
   background-color: #a5b4fc;
   border: 2px solid #6366f1;
@@ -121,7 +115,6 @@ header {
   font-weight: bold;
 }
 
-/* Texto de materia aprobada tachado e inclinado */
 .materia.aprobado strong {
   font-style: italic;
   text-decoration: line-through;
@@ -129,7 +122,11 @@ header {
   transform: skewX(-10deg);
 }
 
-/* Créditos / carga horaria */
+.materia.habilitada:not(.aprobado):not(.activado) {
+  box-shadow: 0 0 5px 2px #38bdf8;
+  border: 2px dashed #0ea5e9;
+}
+
 .carga {
   font-size: 0.95em;
   margin-top: 6px;
