@@ -1,17 +1,3 @@
-import { db, doc, getDoc, setDoc, iniciarSesionAnonima } from './firebase.js';
-
-const ESTADOS = ["desactivado", "activado", "aprobado"];
-let userId = null;
-let datosGuardados = {};
-
-iniciarSesionAnonima(async (uid) => {
-  userId = uid;
-  const ref = doc(db, "usuarios", userId);
-  const snap = await getDoc(ref);
-  datosGuardados = snap.exists() ? snap.data() : {};
-  renderizarMalla();
-});
-
 const materias = [
   { codigo: "1", nombre: "Quimica General", anio: 1, creditos: 5, correlativas: [] },
   { codigo: "2", nombre: "Analisis Matematico I", anio: 1, creditos: 5, correlativas: [] },
@@ -76,28 +62,22 @@ const electivas = [
   { nombre: "Administracion de Negocios", anio: 5, creditos: 5 },
 ];
 
+const ESTADOS = ["desactivado", "activado", "aprobado"];
+
 function obtenerEstado(codigo) {
-  return datosGuardados[`materia_${codigo}`] || "desactivado";
+  return localStorage.getItem(`materia_${codigo}`) || "desactivado";
 }
 
 function guardarEstado(codigo, estado) {
-  datosGuardados[`materia_${codigo}`] = estado;
-  actualizarFirestore();
+  localStorage.setItem(`materia_${codigo}`, estado);
 }
 
 function obtenerEstadoElectiva(nombre) {
-  return datosGuardados[`electiva_${nombre}`] || "desactivado";
+  return localStorage.getItem(`electiva_${nombre}`) || "desactivado";
 }
 
 function guardarEstadoElectiva(nombre, estado) {
-  datosGuardados[`electiva_${nombre}`] = estado;
-  actualizarFirestore();
-}
-
-function actualizarFirestore() {
-  if (userId) {
-    setDoc(doc(db, "usuarios", userId), datosGuardados).catch(console.error);
-  }
+  localStorage.setItem(`electiva_${nombre}`, estado);
 }
 
 function estaHabilitada(materia) {
@@ -111,12 +91,29 @@ function cambiarEstado(elem, codigo) {
   let estadoActual = obtenerEstado(codigo);
   let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
 
-  if (nuevoEstado !== "desactivado" && !estaHabilitada(materia)) {
-    const faltantes = materia.correlativas
-      .filter(c => obtenerEstado(c) !== "aprobado")
-      .map(c => materias.find(m => m.codigo === c)?.nombre || c)
+  // Bloqueo para ACTIVAR sin habilitación
+  if (nuevoEstado === "activado" && !estaHabilitada(materia)) {
+    const correlativasFaltantes = materia.correlativas
+      .filter(cod => obtenerEstado(cod) !== "aprobado")
+      .map(cod => materias.find(m => m.codigo === cod)?.nombre || cod)
       .join("<br>• ");
-    mostrarModal("Correlativas faltantes", `Para <strong>${materia.nombre}</strong> necesitás:<br>• ${faltantes}`);
+    mostrarModal(
+      "Correlativas no cumplidas",
+      `No podés cursar <strong>${materia.nombre}</strong> todavía.<br><br>Te falta aprobar:<br>• ${correlativasFaltantes}`
+    );
+    return;
+  }
+
+  // Bloqueo para APROBAR sin habilitación
+  if (nuevoEstado === "aprobado" && !estaHabilitada(materia)) {
+    const correlativasFaltantes = materia.correlativas
+      .filter(cod => obtenerEstado(cod) !== "aprobado")
+      .map(cod => materias.find(m => m.codigo === cod)?.nombre || cod)
+      .join("<br>• ");
+    mostrarModal(
+      "Correlativas Faltantes",
+      `Para aprobar <strong>${materia.nombre}</strong>, necesitás:<br><br>• ${correlativasFaltantes}`
+    );
     return;
   }
 
@@ -188,10 +185,10 @@ function actualizarResumen() {
   let porcentaje = ((aprobadas / totalCreditos) * 100).toFixed(1);
 
   document.getElementById("resumen-container").innerHTML = `
-    <h3>Progreso</h3>
+    <h3>Resumen de Progreso</h3>
     <p><strong>Carga Horaria:</strong> ${aprobadas} / ${totalCreditos} horas</p>
     <p><strong>Carga Horaria Electivas:</strong> ${aprobadasElectivas} / ${totalElectivas} horas</p>
-    <p><strong>Progreso sin El:</strong> ${porcentaje}%</p>
+    <p><strong>Progreso sin El.:</strong> ${porcentaje}%</p>
   `;
 }
 
@@ -228,6 +225,7 @@ function mostrarModal(titulo, mensaje) {
   document.body.appendChild(modal);
 }
 
+// Eventos para cerrar modal con Escape o clic afuera
 document.addEventListener("keydown", function(e) {
   if (e.key === "Escape") {
     const modal = document.getElementById("modal-correlativas");
@@ -241,3 +239,5 @@ document.addEventListener("click", function(e) {
     modal.remove();
   }
 });
+
+document.addEventListener("DOMContentLoaded", renderizarMalla);
