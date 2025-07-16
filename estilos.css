@@ -176,3 +176,13 @@ footer {
 #scroll-contenido {
   height: 1px;
 }
+.nivel.electivas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.nivel.electivas-grid h3 {
+  grid-column: 1 / -1;
+}
