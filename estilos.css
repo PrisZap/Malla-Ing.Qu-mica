@@ -52,31 +52,21 @@ header {
   margin-right: auto;
 }
 
-/* CONTENEDOR GENERAL DE MALLA + ELECTIVAS EN FILA CON SCROLL */
-#main-grid {
+/* Contenedor de niveles */
+#malla-container {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
   padding: 20px;
-  overflow-x: auto; /* scroll horizontal para todo el contenedor */
-}
-
-/* CONTENEDORES HIJOS APILADOS VERTICALMENTE */
-#malla-container, #electivas-container {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 auto;
-  gap: 20px;
-  max-width: 500px; /* Ajusta este valor si querés cuadros más anchos o estrechos */
 }
 
 /* Estilo de cada nivel */
 .nivel {
-  width: 220px;
-  flex: 0 0 auto;
   background-color: #c3dafe;
   padding: 10px;
   border-radius: 10px;
+  width: 220px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -151,16 +141,4 @@ footer {
   padding: 10px;
   font-size: 0.8em;
   color: #555;
-}
-
-/* ---------- Nuevo estilo para cuadro Electivas ---------- */
-.nivel-electivas {
-  width: 220px;
-  flex: 0 0 auto;
-  background-color: #ffe0e0;
-  align-self: flex-start;
-  order: 99;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
