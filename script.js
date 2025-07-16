@@ -108,25 +108,54 @@ function cambiarEstadoElectiva(elem, nombre) {
 }
 
 function renderizarMalla() {
-  const original = document.getElementById("malla-container");
+  const malla = document.getElementById("malla-container");
+  malla.innerHTML = "";
 
-  // Crear wrapper flotante
-  if (!document.getElementById("scroll-wrapper")) {
-    const wrapper = document.createElement("div");
-    wrapper.id = "scroll-wrapper";
+  [...new Set(materias.map(m => m.anio))].sort().forEach(nivel => {
+    const divNivel = document.createElement("div");
+    divNivel.className = "nivel";
+    divNivel.innerHTML = `<h3>${nivel}° Nivel</h3>`;
 
-    const scrollClone = document.createElement("div");
-    scrollClone.id = "scrollbar-flotante";
+    materias.filter(m => m.anio === nivel).forEach(m => {
+      const estado = obtenerEstado(m.codigo);
+      const div = document.createElement("div");
+      div.className = `materia ${estado}`;
 
-    const scrollContenido = document.createElement("div");
-    scrollContenido.id = "scroll-contenido";
-    scrollClone.appendChild(scrollContenido);
+      if (estado !== "aprobado" && estaHabilitada(m)) {
+        div.classList.add("habilitada");
+      }
 
-    wrapper.appendChild(original.cloneNode(true));
-    wrapper.appendChild(scrollClone);
-    original.parentNode.replaceChild(wrapper, original);
-    sincronizarScroll();
-  }
+      div.innerHTML = `<strong>${m.nombre}</strong><div class="carga">${m.creditos} hs</div>`;
+      if (m.correlativas.length > 0) {
+        const correlativasNombres = m.correlativas
+          .map(c => materias.find(mat => mat.codigo === c)?.nombre || c)
+          .join(", ");
+        div.title = "Correlativas: " + correlativasNombres;
+      }
+      div.onclick = () => cambiarEstado(div, m.codigo);
+      divNivel.appendChild(div);
+    });
+
+    malla.appendChild(divNivel);
+  });
+
+  const divElectivas = document.createElement("div");
+  divElectivas.className = "nivel";
+  divElectivas.innerHTML = `<h3>Electivas</h3>`;
+  electivas.forEach(e => {
+    const estado = obtenerEstadoElectiva(e.nombre);
+    const div = document.createElement("div");
+    div.className = `materia electiva ${estado}`;
+    div.innerHTML = `<strong>${e.nombre}</strong><div class="carga">${e.creditos} hs - Año ${e.anio}</div>`;
+    div.onclick = () => cambiarEstadoElectiva(div, e.nombre);
+    divElectivas.appendChild(div);
+  });
+  malla.appendChild(divElectivas);
+
+  actualizarResumen();
+  sincronizarScroll();
+}
+
 
   const malla = document.querySelector("#scroll-wrapper #malla-container");
   malla.innerHTML = "";
