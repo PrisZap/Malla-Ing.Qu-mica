@@ -1,3 +1,4 @@
+// Datos definitivos de materias de Ingeniería Química
 const materias = [
   { codigo: "1", nombre: "Quimica General", anio: 1, creditos: 5, correlativas: [] },
   { codigo: "2", nombre: "Analisis Matematico I", anio: 1, creditos: 5, correlativas: [] },
@@ -40,7 +41,7 @@ const materias = [
   { codigo: "39", nombre: "Mecanica Industrial", anio: 5, creditos: 2, correlativas: ["11","20","3","14","9"] },
   { codigo: "40", nombre: "Procesos Biotecnologicos", anio: 5, creditos: 3, correlativas: ["17","20","19","23","11","14","15"] },
   { codigo: "41", nombre: "Proyecto Final", anio: 5, creditos: 4, correlativas: ["27","31","32","34","29","33","17","20","19","25","28"] },
-  { codigo: "42", nombre: "Practica Profesional Supervisada", anio: 5, creditos: 0, correlativas: ["27","31","32","34","29","33","17","20","19","25","28"] }
+  { codigo: "42", nombre: "Practica Profesional Supervisada", anio: 5, creditos: 0, correlativas: ["27","31","32","34","29","33","17","20","19","25","28"] },
 ];
 
 const electivas = [
@@ -59,7 +60,7 @@ const electivas = [
   { nombre: "Gestion de Residuos", anio: 5, creditos: 6 },
   { nombre: "Energias Renovables", anio: 5, creditos: 6 },
   { nombre: "Sociologia del Trabajo", anio: 5, creditos: 4 },
-  { nombre: "Administracion de Negocios", anio: 5, creditos: 5 }
+  { nombre: "Administracion de Negocios", anio: 5, creditos: 5 },
 ];
 
 const ESTADOS = ["desactivado", "activado", "aprobado"];
@@ -111,20 +112,21 @@ function renderizarMalla() {
     malla.appendChild(divNivel);
   });
 
-  renderizarElectivas();
-  actualizarResumen();
-}
-
-function renderizarElectivas() {
-  const electivasContainer = document.getElementById("electivas-container");
-  electivasContainer.innerHTML = `<h3>Electivas</h3>`;
+  // Cuadro Electivas
+  const divElectivas = document.createElement("div");
+  divElectivas.className = "nivel";
+  divElectivas.innerHTML = `<h3>Electivas</h3>`;
 
   electivas.forEach(e => {
     const div = document.createElement("div");
     div.className = "materia";
     div.innerHTML = `<strong>${e.nombre}</strong><div class="carga">${e.creditos} hs - Año ${e.anio}</div>`;
-    electivasContainer.appendChild(div);
+    divElectivas.appendChild(div);
   });
+
+  malla.appendChild(divElectivas);
+
+  actualizarResumen();
 }
 
 function actualizarResumen() {
