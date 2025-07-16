@@ -8,7 +8,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAw9HiYLp-qzy4dh65u0IG-qDvtJdoGi3s",
   authDomain: "malla-ing-quimica.firebaseapp.com",
   projectId: "malla-ing-quimica",
-  storageBucket: "malla-ing-quimica.firebasestorage.app",
+  storageBucket: "malla-ing-quimica.appspot.com",
   messagingSenderId: "82682158625",
   appId: "1:82682158625:web:00839d1837b6f303268d60"
 };
