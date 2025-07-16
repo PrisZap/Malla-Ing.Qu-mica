@@ -88,27 +88,21 @@ function cambiarEstado(elem, codigo) {
   const materia = materias.find(m => m.codigo === codigo);
   if (!materia) return;
 
-  let estadoActual = obtenerEstado(codigo);
-  let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
+  const estadoActual = obtenerEstado(codigo);
+  const nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
 
-  if (nuevoEstado === "aprobado" && !estaHabilitada(materia)) {
-    // Mostrar modal con correlativas faltantes
+  if ((nuevoEstado === "activado" || nuevoEstado === "aprobado") && !estaHabilitada(materia)) {
     const correlativasFaltantes = materia.correlativas
       .filter(cod => obtenerEstado(cod) !== "aprobado")
-      .map(c => materias.find(mat => mat.codigo === c)?.nombre || c)
-      .join(", ");
+      .map(cod => {
+        const mat = materias.find(m => m.codigo === cod);
+        return mat ? mat.nombre : `Código desconocido (${cod})`;
+      })
+      .join("<br>• ");
 
     mostrarModal(
       "Correlativas Faltantes",
-      `Para aprobar <strong>${materia.nombre}</strong>, primero debés aprobar: <br><em>${correlativasFaltantes}</em>.`
-    );
-    return;
-  }
-
-  if (nuevoEstado === "activado" && !estaHabilitada(materia)) {
-    mostrarModal(
-      "No habilitada",
-      `No podés activar <strong>${materia.nombre}</strong> aún. Faltan aprobar sus correlativas.`
+      `Para avanzar con <strong>${materia.nombre}</strong>, necesitás aprobar:<br><br>• ${correlativasFaltantes}`
     );
     return;
   }
