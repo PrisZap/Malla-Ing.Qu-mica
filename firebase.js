@@ -2,14 +2,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/fireba
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-const firebaseConfig = {
-  apiKey: "TU_API_KEY_AQUI",
-  authDomain: "TU_AUTH_DOMAIN_AQUI",
-  projectId: "TU_PROJECT_ID_AQUI",
-  storageBucket: "TU_STORAGE_BUCKET_AQUI",
-  messagingSenderId: "TU_MESSAGING_SENDER_ID_AQUI",
-  appId: "TU_APP_ID_AQUI"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyAAyiBLrbz3_hWfbcvKobeTijRMhtTbaMw",
+    authDomain: "malla-ingenieria-quimica-76a2a.firebaseapp.com",
+    projectId: "malla-ingenieria-quimica-76a2a",
+    storageBucket: "malla-ingenieria-quimica-76a2a.firebasestorage.app",
+    messagingSenderId: "522265422388",
+    appId: "1:522265422388:web:9b3f4f8e93bbabb91ef861"
+  };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
