@@ -112,9 +112,9 @@ function renderizarMalla() {
     malla.appendChild(divNivel);
   });
 
-  // Cuadro Electivas
+  // Electivas al costado
   const divElectivas = document.createElement("div");
-  divElectivas.className = "nivel";
+  divElectivas.className = "nivel nivel-electivas";
   divElectivas.innerHTML = `<h3>Electivas</h3>`;
 
   electivas.forEach(e => {
