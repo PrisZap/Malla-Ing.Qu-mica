@@ -96,15 +96,17 @@ header {
 
 .materia {
   background-color: #e0e7ff;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 8px;
+  padding: 14px 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   border: 1px dotted #94a3b8;
   font-weight: 500;
+  font-size: 0.95rem;
 }
+
 
 .materia:hover {
   transform: scale(1.02);
