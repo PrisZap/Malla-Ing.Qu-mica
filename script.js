@@ -140,7 +140,7 @@ function renderizarMalla() {
   });
 
 const divElectivas = document.createElement("div");
-divElectivas.className = "nivel electivas-grid";
+divElectivas.className = "nivel";
 divElectivas.innerHTML = `<h3>Electivas</h3>`;
   electivas.forEach(e => {
     const estado = obtenerEstadoElectiva(e.nombre);
