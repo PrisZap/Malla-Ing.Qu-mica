@@ -91,15 +91,28 @@ function cambiarEstado(elem, codigo) {
   let estadoActual = obtenerEstado(codigo);
   let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
 
+  // Bloqueo para ACTIVAR sin tener habilitación
+  if (nuevoEstado === "activado" && !estaHabilitada(materia)) {
+    const correlativasFaltantes = materia.correlativas
+      .filter(cod => obtenerEstado(cod) !== "aprobado")
+      .map(cod => materias.find(m => m.codigo === cod)?.nombre || cod)
+      .join("<br>• ");
+    mostrarModal(
+      "Correlativas no cumplidas",
+      `No podés cursar <strong>${materia.nombre}</strong> todavía.<br><br>Te falta aprobar:<br>• ${correlativasFaltantes}`
+    );
+    return;
+  }
+
+  // Bloqueo para APROBAR sin tener habilitación
   if (nuevoEstado === "aprobado" && !estaHabilitada(materia)) {
     const correlativasFaltantes = materia.correlativas
       .filter(cod => obtenerEstado(cod) !== "aprobado")
       .map(cod => materias.find(m => m.codigo === cod)?.nombre || cod)
       .join("<br>• ");
-
     mostrarModal(
       "Correlativas Faltantes",
-      `Para avanzar con <strong>${materia.nombre}</strong>, necesitás aprobar:<br><br>• ${correlativasFaltantes}`
+      `Para aprobar <strong>${materia.nombre}</strong>, necesitás:<br><br>• ${correlativasFaltantes}`
     );
     return;
   }
@@ -193,15 +206,14 @@ function sincronizarScroll() {
   });
 }
 function mostrarModal(titulo, mensaje) {
-  // Si ya existe, lo borra
   const existente = document.getElementById("modal-correlativas");
   if (existente) existente.remove();
 
   const modal = document.createElement("div");
   modal.id = "modal-correlativas";
-  modal.className = "modal";
+  modal.id = "modal-fondo";
   modal.innerHTML = `
-    <div class="modal-contenido">
+    <div class="id="modal"">
       <span class="modal-cerrar" onclick="document.getElementById('modal-correlativas').remove()">&times;</span>
       <h3>${titulo}</h3>
       <p>${mensaje}</p>
