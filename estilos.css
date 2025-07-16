@@ -66,13 +66,14 @@ header {
 
 .nivel {
   background-color: #c3dafe;
-  padding: 10px;
-  border-radius: 10px;
-  width: 220px;
-  min-width: 220px;
+  padding: 15px;
+  border-radius: 12px;
+  width: 260px;
+  min-width: 260px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
 }
+
 
 .nivel h3 {
   position: relative;
