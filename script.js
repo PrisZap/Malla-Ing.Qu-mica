@@ -97,7 +97,7 @@ function cambiarEstado(elem, codigo) {
   }
 
   guardarEstado(codigo, nuevoEstado);
-  renderizarMalla(); // para actualizar habilitadas visualmente
+  renderizarMalla();
 }
 
 function cambiarEstadoElectiva(elem, nombre) {
@@ -108,27 +108,7 @@ function cambiarEstadoElectiva(elem, nombre) {
 }
 
 function renderizarMalla() {
-  const original = document.getElementById("malla-container");
-
-  // Crear wrapper flotante
-  if (!document.getElementById("scroll-wrapper")) {
-    const wrapper = document.createElement("div");
-    wrapper.id = "scroll-wrapper";
-
-    const scrollClone = document.createElement("div");
-    scrollClone.id = "scrollbar-flotante";
-
-    const scrollContenido = document.createElement("div");
-    scrollContenido.id = "scroll-contenido";
-    scrollClone.appendChild(scrollContenido);
-
-    wrapper.appendChild(original.cloneNode(true));
-    wrapper.appendChild(scrollClone);
-    original.parentNode.replaceChild(wrapper, original);
-    sincronizarScroll();
-  }
-
-  const malla = document.querySelector("#scroll-wrapper #malla-container");
+  const malla = document.getElementById("malla-container");
   malla.innerHTML = "";
 
   [...new Set(materias.map(m => m.anio))].sort().forEach(nivel => {
@@ -173,6 +153,7 @@ function renderizarMalla() {
   malla.appendChild(divElectivas);
 
   actualizarResumen();
+  sincronizarScroll();
 }
 
 function actualizarResumen() {
@@ -191,7 +172,7 @@ function actualizarResumen() {
 }
 
 function sincronizarScroll() {
-  const malla = document.querySelector("#scroll-wrapper #malla-container");
+  const malla = document.getElementById("malla-container");
   const barra = document.getElementById("scrollbar-flotante");
   const contenido = document.getElementById("scroll-contenido");
   contenido.style.width = malla.scrollWidth + "px";
