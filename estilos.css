@@ -140,3 +140,32 @@ footer {
   font-size: 0.8em;
   color: #555;
 }
+#scroll-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+#scrollbar-flotante {
+  position: sticky;
+  bottom: 0;
+  height: 14px;
+  background: #e5eaf5;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-top: 1px solid #ccc;
+  scrollbar-width: none; /* Firefox */
+}
+#scrollbar-flotante::-webkit-scrollbar {
+  height: 8px;
+}
+#scrollbar-flotante::-webkit-scrollbar-track {
+  background: transparent;
+}
+#scrollbar-flotante::-webkit-scrollbar-thumb {
+  background: #1b538c;
+  border-radius: 10px;
+}
+
+#scroll-contenido {
+  height: 1px;
+}
