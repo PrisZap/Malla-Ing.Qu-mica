@@ -52,22 +52,13 @@ header {
   margin-right: auto;
 }
 
-/* Contenedor general de malla + electivas en fila con scroll horizontal */
-#main-grid {
+/* Contenedor de niveles */
+#malla-container {
   display: flex;
-  flex-wrap: nowrap;  /* Sin salto de línea */
-  gap: 20px;          /* Espacio entre malla y electivas */
-  padding: 20px;
-  overflow-x: auto;   /* Scroll horizontal si no entran */
-}
-
-/* Contenedores hijos apilados verticalmente */
-#malla-container, #electivas-container {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 auto;     /* No se estiran ni achican */
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
-  max-width: 500px;   /* Ajustá según te guste */
+  padding: 20px;
 }
 
 /* Estilo de cada nivel */
@@ -77,7 +68,6 @@ header {
   border-radius: 10px;
   width: 220px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  flex: 0 0 auto;     /* Mantener ancho fijo */
 }
 
 /* Título del nivel con línea fina centrada */
@@ -153,14 +143,10 @@ footer {
   color: #555;
 }
 
-/* Estilo específico para cuadro Electivas */
+/* ---------- Nuevo estilo para cuadro Electivas ---------- */
 .nivel-electivas {
-  background-color: #ffe0e0;
-  width: 220px;
-  flex: 0 0 auto;
   align-self: flex-start;
-  order: 99;  /* Para que quede al final */
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  width: 220px;
+  background-color: #ffe0e0;
+  order: 99;  /* Para que quede al final de la fila */
 }
