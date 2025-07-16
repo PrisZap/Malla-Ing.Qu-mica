@@ -110,24 +110,27 @@ function renderizarMalla() {
     });
 
     malla.appendChild(divNivel);
+
+    // Insertar Electivas justo después del Nivel 5
+    if (nivel === 5) {
+      const divElectivas = document.createElement("div");
+      divElectivas.className = "nivel nivel-electivas";
+      divElectivas.innerHTML = `<h3>Electivas</h3>`;
+
+      electivas.forEach(e => {
+        const div = document.createElement("div");
+        div.className = "materia";
+        div.innerHTML = `<strong>${e.nombre}</strong><div class="carga">${e.creditos} hs - Año ${e.anio}</div>`;
+        divElectivas.appendChild(div);
+      });
+
+      malla.appendChild(divElectivas);
+    }
   });
-
-  // Electivas al costado
-  const divElectivas = document.createElement("div");
-  divElectivas.className = "nivel nivel-electivas";
-  divElectivas.innerHTML = `<h3>Electivas</h3>`;
-
-  electivas.forEach(e => {
-    const div = document.createElement("div");
-    div.className = "materia";
-    div.innerHTML = `<strong>${e.nombre}</strong><div class="carga">${e.creditos} hs - Año ${e.anio}</div>`;
-    divElectivas.appendChild(div);
-  });
-
-  malla.appendChild(divElectivas);
 
   actualizarResumen();
 }
+
 
 function actualizarResumen() {
   let totalAprobado = 0;
