@@ -62,9 +62,6 @@ const electivas = [
   { nombre: "Administracion de Negocios", anio: 5, creditos: 5 },
 ];
 
-// [ ... Mantén tu arreglo de materias y electivas igual ... ]
-// Y tus funciones obtenerEstado(), guardarEstado(), etc.
-
 const ESTADOS = ["desactivado", "activado", "aprobado"];
 
 function obtenerEstado(codigo) {
@@ -83,22 +80,24 @@ function guardarEstadoElectiva(nombre, estado) {
   localStorage.setItem(`electiva_${nombre}`, estado);
 }
 
+function estaHabilitada(materia) {
+  return materia.correlativas.every(cod => obtenerEstado(cod) === "aprobado");
+}
+
 function cambiarEstado(elem, codigo) {
+  const materia = materias.find(m => m.codigo === codigo);
+  if (!materia) return;
+
   let estadoActual = obtenerEstado(codigo);
   let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
 
-  if (nuevoEstado === "aprobado") {
-    const materia = materias.find(m => m.codigo === codigo);
-    const noAprobadas = materia.correlativas.filter(cor => obtenerEstado(cor) !== "aprobado");
-
-    if (noAprobadas.length > 0) {
-      alert("No podés aprobar esta materia sin aprobar todas sus correlativas.");
-      return;
-    }
+  if (nuevoEstado === "aprobado" && !estaHabilitada(materia)) {
+    alert("No podés aprobar esta materia sin tener todas las correlativas aprobadas.");
+    return;
   }
 
   guardarEstado(codigo, nuevoEstado);
-  renderizarMalla(); // actualiza clases y resumen
+  renderizarMalla(); // para actualizar habilitadas visualmente
 }
 
 function cambiarEstadoElectiva(elem, nombre) {
@@ -109,7 +108,27 @@ function cambiarEstadoElectiva(elem, nombre) {
 }
 
 function renderizarMalla() {
-  const malla = document.getElementById("malla-container");
+  const original = document.getElementById("malla-container");
+
+  // Crear wrapper flotante
+  if (!document.getElementById("scroll-wrapper")) {
+    const wrapper = document.createElement("div");
+    wrapper.id = "scroll-wrapper";
+
+    const scrollClone = document.createElement("div");
+    scrollClone.id = "scrollbar-flotante";
+
+    const scrollContenido = document.createElement("div");
+    scrollContenido.id = "scroll-contenido";
+    scrollClone.appendChild(scrollContenido);
+
+    wrapper.appendChild(original.cloneNode(true));
+    wrapper.appendChild(scrollClone);
+    original.parentNode.replaceChild(wrapper, original);
+    sincronizarScroll();
+  }
+
+  const malla = document.querySelector("#scroll-wrapper #malla-container");
   malla.innerHTML = "";
 
   [...new Set(materias.map(m => m.anio))].sort().forEach(nivel => {
@@ -122,20 +141,17 @@ function renderizarMalla() {
       const div = document.createElement("div");
       div.className = `materia ${estado}`;
 
-      // Habilitada si todas las correlativas están aprobadas y aún no está aprobada
-      if (estado !== "aprobado" && m.correlativas.every(c => obtenerEstado(c) === "aprobado")) {
+      if (estado !== "aprobado" && estaHabilitada(m)) {
         div.classList.add("habilitada");
       }
 
-      // Mostrar tooltip con correlativas
-      if (m.correlativas.length > 0) {
-        const nombres = m.correlativas
-          .map(c => materias.find(mat => mat.codigo === c)?.nombre || "")
-          .join(", ");
-        div.title = `Correlativas: ${nombres}`;
-      }
-
       div.innerHTML = `<strong>${m.nombre}</strong><div class="carga">${m.creditos} hs</div>`;
+      if (m.correlativas.length > 0) {
+        const correlativasNombres = m.correlativas
+          .map(c => materias.find(mat => mat.codigo === c)?.nombre || c)
+          .join(", ");
+        div.title = "Correlativas: " + correlativasNombres;
+      }
       div.onclick = () => cambiarEstado(div, m.codigo);
       divNivel.appendChild(div);
     });
@@ -161,11 +177,9 @@ function renderizarMalla() {
 
 function actualizarResumen() {
   let totalCreditos = materias.reduce((sum, m) => sum + m.creditos, 0);
-  let aprobadas = materias.filter(m => obtenerEstado(m.codigo) === "aprobado")
-                          .reduce((sum, m) => sum + m.creditos, 0);
+  let aprobadas = materias.filter(m => obtenerEstado(m.codigo) === "aprobado").reduce((sum, m) => sum + m.creditos, 0);
   let totalElectivas = electivas.reduce((sum, e) => sum + e.creditos, 0);
-  let aprobadasElectivas = electivas.filter(e => obtenerEstadoElectiva(e.nombre) === "aprobado")
-                                    .reduce((sum, e) => sum + e.creditos, 0);
+  let aprobadasElectivas = electivas.filter(e => obtenerEstadoElectiva(e.nombre) === "aprobado").reduce((sum, e) => sum + e.creditos, 0);
   let porcentaje = ((aprobadas / totalCreditos) * 100).toFixed(1);
 
   document.getElementById("resumen-container").innerHTML = `
@@ -176,5 +190,18 @@ function actualizarResumen() {
   `;
 }
 
-document.addEventListener("DOMContentLoaded", renderizarMalla);
+function sincronizarScroll() {
+  const malla = document.querySelector("#scroll-wrapper #malla-container");
+  const barra = document.getElementById("scrollbar-flotante");
+  const contenido = document.getElementById("scroll-contenido");
+  contenido.style.width = malla.scrollWidth + "px";
 
+  barra.addEventListener("scroll", () => {
+    malla.scrollLeft = barra.scrollLeft;
+  });
+  malla.addEventListener("scroll", () => {
+    barra.scrollLeft = malla.scrollLeft;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", renderizarMalla);
