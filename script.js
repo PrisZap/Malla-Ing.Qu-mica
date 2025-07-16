@@ -8,7 +8,6 @@ const materias = [
   { codigo: "6", nombre: "Ingenieria y Sociedad", anio: 1, creditos: 2, correlativas: [] },
   { codigo: "7", nombre: "Sistema de Representacion", anio: 1, creditos: 2, correlativas: [] },
   { codigo: "8", nombre: "Fundamentos de Informatica", anio: 1, creditos: 2, correlativas: [] },
-
   { codigo: "9", nombre: "Analisis Matematico II", anio: 2, creditos: 5, correlativas: ["4", "2"] },
   { codigo: "10", nombre: "Fisica II", anio: 2, creditos: 5, correlativas: ["2", "3"] },
   { codigo: "11", nombre: "Introd. A Equipos y Procesos", anio: 2, creditos: 3, correlativas: ["1", "5"] },
@@ -17,7 +16,6 @@ const materias = [
   { codigo: "14", nombre: "Quimica Inorganica", anio: 2, creditos: 4, correlativas: ["1"] },
   { codigo: "15", nombre: "Quimica Organica", anio: 2, creditos: 5, correlativas: ["1"] },
   { codigo: "16", nombre: "Ingles I", anio: 2, creditos: 2, correlativas: [] },
-
   { codigo: "17", nombre: "Balance de Masa y Energia", anio: 3, creditos: 3, correlativas: ["1","7","11","10","5","4","2"] },
   { codigo: "18", nombre: "Ciencia de los Materiales", anio: 3, creditos: 2, correlativas: ["11","14","15","5","1"] },
   { codigo: "19", nombre: "Fenomenos de transporte", anio: 3, creditos: 5, correlativas: ["11","9","10","4","1","2"] },
@@ -28,7 +26,6 @@ const materias = [
   { codigo: "24", nombre: "Quimica Analitica", anio: 3, creditos: 4, correlativas: ["13","14","15","6","1"] },
   { codigo: "25", nombre: "Quimica Aplicada", anio: 3, creditos: 2, correlativas: ["11","14","15","10","5","6","1"] },
   { codigo: "26", nombre: "Termodinamica", anio: 3, creditos: 4, correlativas: ["14","9","10","2","1"] },
-
   { codigo: "27", nombre: "Diseño, Simulación, Optimización y Seguridad de Procesos", anio: 4, creditos: 4, correlativas: ["17","22","7","11","9","21"] },
   { codigo: "28", nombre: "Economia", anio: 4, creditos: 3, correlativas: ["11","6","4"] },
   { codigo: "29", nombre: "Ingenieria de las Reacciones Quimicas", anio: 4, creditos: 5, correlativas: ["17","26","20","19","14","15","9"] },
@@ -37,7 +34,6 @@ const materias = [
   { codigo: "32", nombre: "Operaciones Unitarias II", anio: 4, creditos: 5, correlativas: ["26","20","19","11","9","10","15"] },
   { codigo: "33", nombre: "Organización Industrial", anio: 4, creditos: 3, correlativas: ["13","6","11","12"] },
   { codigo: "34", nombre: "Tecnologia de la Energia Termica", anio: 4, creditos: 5, correlativas: ["17","26","19","20","11","9","10"] },
-
   { codigo: "35", nombre: "Calidad y Control Estadístico de Proceso", anio: 5, creditos: 2, correlativas: ["13","2"] },
   { codigo: "36", nombre: "Control Automático de Procesos", anio: 5, creditos: 4, correlativas: ["27","32","17","22","24"] },
   { codigo: "37", nombre: "Higiene y Seguridad en el Trabajo", anio: 5, creditos: 2, correlativas: ["14","9","17","11"] },
@@ -46,7 +42,27 @@ const materias = [
   { codigo: "40", nombre: "Procesos Biotecnologicos", anio: 5, creditos: 3, correlativas: ["17","20","19","23","11","14","15"] },
   { codigo: "41", nombre: "Proyecto Final", anio: 5, creditos: 4, correlativas: ["27","31","32","34","29","33","17","20","19","25","28"] },
   { codigo: "42", nombre: "Practica Profesional Supervisada", anio: 5, creditos: 0, correlativas: ["27","31","32","34","29","33","17","20","19","25","28"] },
+
+  // Electivas
+  { codigo: "E1", nombre: "Comunicación Lingüística (1° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E2", nombre: "Practicas de Laboratorio (2° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E3", nombre: "Quimica Analitica Aplicada (4° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E4", nombre: "Quimica de los Alimentos (4° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E5", nombre: "Metodos Tradicionales de Preservacion de Alimentos (5° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E6", nombre: "Metodos Emergentes de Preservacion de Alimentos (5° año)", anio: 99, creditos: 5, correlativas: [] },
+  { codigo: "E7", nombre: "Gestion Ambiental (5° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E8", nombre: "Higiene y Seguridad en el Trabajo (5° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E9", nombre: "Gestion de Recursos Humanos (5° año)", anio: 99, creditos: 5, correlativas: [] },
+  { codigo: "E10", nombre: "Formacion de Emprendedores (5° año)", anio: 99, creditos: 8, correlativas: [] },
+  { codigo: "E11", nombre: "Tecnologia de los Alimentos (5° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E12", nombre: "Ingenieria de las Instalaciones (5° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E13", nombre: "Gestion de Residuos (5° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E14", nombre: "Energias Renovables (5° año)", anio: 99, creditos: 6, correlativas: [] },
+  { codigo: "E15", nombre: "Sociologia del Trabajo (5° año)", anio: 99, creditos: 4, correlativas: [] },
+  { codigo: "E16", nombre: "Administracion de Negocios (5° año)", anio: 99, creditos: 5, correlativas: [] },
 ];
+
+// Resto del código igual (no modificado)
 
 const ESTADOS = ["desactivado", "activado", "aprobado"];
 
@@ -87,7 +103,7 @@ function renderizarMalla() {
   niveles.forEach(nivel => {
     const divNivel = document.createElement("div");
     divNivel.className = "nivel";
-    divNivel.innerHTML = `<h3>${nivel}° Nivel</h3>`;
+    divNivel.innerHTML = `<h3>${nivel === 99 ? "Electivas" : nivel + "° Nivel"}</h3>`;
 
     const materiasDelNivel = materias.filter(m => m.anio === nivel);
     materiasDelNivel.forEach(m => {
