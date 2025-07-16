@@ -139,9 +139,9 @@ function renderizarMalla() {
     malla.appendChild(divNivel);
   });
 
-  const divElectivas = document.createElement("div");
-  divElectivas.className = "nivel";
-  divElectivas.innerHTML = `<h3>Electivas</h3>`;
+const divElectivas = document.createElement("div");
+divElectivas.className = "nivel electivas-grid";
+divElectivas.innerHTML = `<h3>Electivas</h3>`;
   electivas.forEach(e => {
     const estado = obtenerEstadoElectiva(e.nombre);
     const div = document.createElement("div");
