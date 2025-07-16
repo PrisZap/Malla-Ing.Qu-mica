@@ -1,4 +1,3 @@
-// Datos definitivos de materias de Ingeniería Química
 const materias = [
   { codigo: "1", nombre: "Quimica General", anio: 1, creditos: 5, correlativas: [] },
   { codigo: "2", nombre: "Analisis Matematico I", anio: 1, creditos: 5, correlativas: [] },
@@ -73,81 +72,79 @@ function guardarEstado(codigo, estado) {
   localStorage.setItem(`materia_${codigo}`, estado);
 }
 
+function obtenerEstadoElectiva(nombre) {
+  return localStorage.getItem(`electiva_${nombre}`) || "desactivado";
+}
+
+function guardarEstadoElectiva(nombre, estado) {
+  localStorage.setItem(`electiva_${nombre}`, estado);
+}
+
 function cambiarEstado(elem, codigo) {
   let estadoActual = obtenerEstado(codigo);
-  let index = ESTADOS.indexOf(estadoActual);
-  let nuevoEstado = ESTADOS[(index + 1) % ESTADOS.length];
+  let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
   guardarEstado(codigo, nuevoEstado);
   elem.className = `materia ${nuevoEstado}`;
   actualizarResumen();
 }
 
-function crearMateria(m) {
-  const div = document.createElement("div");
-  const estado = obtenerEstado(m.codigo);
-  div.className = `materia ${estado}`;
-  div.innerHTML = `
-    <strong>${m.nombre}</strong>
-    <div class="carga">${m.creditos} hs</div>
-  `;
-  div.onclick = () => cambiarEstado(div, m.codigo);
-  return div;
+function cambiarEstadoElectiva(elem, nombre) {
+  let estadoActual = obtenerEstadoElectiva(nombre);
+  let nuevoEstado = ESTADOS[(ESTADOS.indexOf(estadoActual) + 1) % ESTADOS.length];
+  guardarEstadoElectiva(nombre, nuevoEstado);
+  elem.className = `materia electiva ${nuevoEstado}`;
+  actualizarResumen();
 }
 
 function renderizarMalla() {
   const malla = document.getElementById("malla-container");
   malla.innerHTML = "";
 
-  const niveles = [...new Set(materias.map(m => m.anio))].sort((a, b) => a - b);
-  niveles.forEach(nivel => {
+  [...new Set(materias.map(m => m.anio))].sort().forEach(nivel => {
     const divNivel = document.createElement("div");
     divNivel.className = "nivel";
     divNivel.innerHTML = `<h3>${nivel}° Nivel</h3>`;
-
-    const materiasDelNivel = materias.filter(m => m.anio === nivel);
-    materiasDelNivel.forEach(m => {
-      divNivel.appendChild(crearMateria(m));
+    materias.filter(m => m.anio === nivel).forEach(m => {
+      const estado = obtenerEstado(m.codigo);
+      const div = document.createElement("div");
+      div.className = `materia ${estado}`;
+      div.innerHTML = `<strong>${m.nombre}</strong><div class="carga">${m.creditos} hs</div>`;
+      div.onclick = () => cambiarEstado(div, m.codigo);
+      divNivel.appendChild(div);
     });
-
     malla.appendChild(divNivel);
   });
 
-  // Cuadro Electivas
   const divElectivas = document.createElement("div");
   divElectivas.className = "nivel";
   divElectivas.innerHTML = `<h3>Electivas</h3>`;
-
   electivas.forEach(e => {
+    const estado = obtenerEstadoElectiva(e.nombre);
     const div = document.createElement("div");
-    div.className = "materia";
+    div.className = `materia electiva ${estado}`;
     div.innerHTML = `<strong>${e.nombre}</strong><div class="carga">${e.creditos} hs - Año ${e.anio}</div>`;
+    div.onclick = () => cambiarEstadoElectiva(div, e.nombre);
     divElectivas.appendChild(div);
   });
-
   malla.appendChild(divElectivas);
-
   actualizarResumen();
 }
 
 function actualizarResumen() {
-  let totalAprobado = 0;
-  let totalCreditos = 0;
+  let totalCreditos = materias.reduce((sum, m) => sum + m.creditos, 0);
+  let aprobadas = materias.filter(m => obtenerEstado(m.codigo) === "aprobado")
+                          .reduce((sum, m) => sum + m.creditos, 0);
+  let totalElectivas = electivas.reduce((sum, e) => sum + e.creditos, 0);
+  let aprobadasElectivas = electivas.filter(e => obtenerEstadoElectiva(e.nombre) === "aprobado")
+                                    .reduce((sum, e) => sum + e.creditos, 0);
+  let porcentaje = ((aprobadas / totalCreditos) * 100).toFixed(1);
 
-  materias.forEach(m => {
-    totalCreditos += m.creditos;
-    if (obtenerEstado(m.codigo) === "aprobado") {
-      totalAprobado += m.creditos;
-    }
-  });
-
-  const porcentaje = ((totalAprobado / totalCreditos) * 100).toFixed(1);
-  const resumen = document.getElementById("resumen-container");
-  resumen.innerHTML = `
-    Carga horaria acumulada: <strong>${totalAprobado}</strong> horas<br/>
-    Progreso: <strong>${porcentaje}%</strong>
+  document.getElementById("resumen-container").innerHTML = `
+    <h3>Resumen de Progreso</h3>
+    <p><strong>Carga Horaria Total Obligatoria:</strong> ${aprobadas} / ${totalCreditos} horas</p>
+    <p><strong>Carga Horaria Total Electivas:</strong> ${aprobadasElectivas} / ${totalElectivas} horas</p>
+    <p><strong>Progreso en Obligatorias:</strong> ${porcentaje}%</p>
   `;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderizarMalla();
-});
+document.addEventListener("DOMContentLoaded", renderizarMalla);
