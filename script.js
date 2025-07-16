@@ -211,3 +211,17 @@ function mostrarModal(titulo, mensaje) {
   modal.style.display = "block";
 }
 document.addEventListener("DOMContentLoaded", renderizarMalla);
+// Cerrar modal con Escape o clic afuera
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") {
+    const modal = document.getElementById("modal-correlativas");
+    if (modal) modal.remove();
+  }
+});
+
+document.addEventListener("click", function(e) {
+  const modal = document.getElementById("modal-correlativas");
+  if (modal && e.target === modal) {
+    modal.remove();
+  }
+});
