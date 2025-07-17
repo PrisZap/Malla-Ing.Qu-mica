@@ -295,15 +295,30 @@ function iniciarSesionConGoogle() {
   });
 }
 
+
+// 🔁 Detecta el estado de login
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     usuarioActual = user;
+    document.getElementById("btn-login").style.display = "none";
+    document.getElementById("btn-logout").style.display = "inline-block";
     await cargarProgresoDesdeFirestore();
     renderizarMalla();
   } else {
     usuarioActual = null;
-    renderizarMalla(); // mostrar estado local por si no quiere loguearse
+    document.getElementById("btn-login").style.display = "inline-block";
+    document.getElementById("btn-logout").style.display = "none";
+    renderizarMalla();
   }
 });
 
+// ✅ Eventos de los botones (fuera del if/else)
+document.getElementById("btn-login").addEventListener("click", iniciarSesionConGoogle);
+
+document.getElementById("btn-logout").addEventListener("click", async () => {
+  await auth.signOut();
+});
+
+// 👀 Render inicial
 document.addEventListener("DOMContentLoaded", renderizarMalla);
+
