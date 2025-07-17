@@ -298,19 +298,31 @@ function iniciarSesionConGoogle() {
 
 // 🔁 Detecta el estado de login
 onAuthStateChanged(auth, async (user) => {
+  const nombreUsuarioElem = document.getElementById("nombre-usuario");
+
   if (user) {
     usuarioActual = user;
     document.getElementById("btn-login").style.display = "none";
     document.getElementById("btn-logout").style.display = "inline-block";
+
+    // ✅ Mostrar nombre debajo del botón
+    nombreUsuarioElem.textContent = `Hola, ${user.displayName}`;
+    nombreUsuarioElem.style.display = "block";
+
     await cargarProgresoDesdeFirestore();
     renderizarMalla();
   } else {
     usuarioActual = null;
     document.getElementById("btn-login").style.display = "inline-block";
     document.getElementById("btn-logout").style.display = "none";
+
+    // ⛔ Ocultar nombre si no hay usuario
+    nombreUsuarioElem.style.display = "none";
+
     renderizarMalla();
   }
 });
+
 
 // ✅ Eventos de los botones (fuera del if/else)
 document.getElementById("btn-login").addEventListener("click", iniciarSesionConGoogle);
