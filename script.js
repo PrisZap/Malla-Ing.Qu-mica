@@ -322,11 +322,17 @@ onAuthStateChanged(auth, async (user) => {
     document.getElementById("btn-logout").style.display = "none";
 
     nombreUsuarioElem.style.display = "none";
+    desactivarTodasLasMaterias(); // 💥 acá desactivás las materias sin guardar en Firestore
+renderizarMalla();
 
-    renderizarMalla();
   }
 });
-
+function desactivarTodasLasMaterias() {
+  Object.keys(progresoMaterias).forEach(codigo => {
+    progresoMaterias[codigo] = "pendiente";
+  });
+  guardarProgresoEnLocalStorage(); // opcional si aún usás localStorage
+}
 
 // 👀 Render inicial
 document.addEventListener("DOMContentLoaded", renderizarMalla);
