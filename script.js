@@ -46,7 +46,7 @@ function iniciarSesionConGoogle() {
       alert("Hubo un problema al iniciar sesión.");
     });
 }
-}
+
 const materias = [
   { codigo: "1", nombre: "Quimica General", anio: 1, creditos: 5, correlativas: [] },
   { codigo: "2", nombre: "Analisis Matematico I", anio: 1, creditos: 5, correlativas: [] },
