@@ -321,14 +321,14 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Aquí va el getRedirectResult para manejar el login por redirect
  getRedirectResult(auth)
   .then(async (result) => {
+    console.log("🔁 Resultado del redirect:", result); // NUEVO
+
     if (result && result.user) {
       usuarioActual = result.user;
-      console.log("Usuario volvió del redirect:", result.user.displayName);
+      console.log("✅ Usuario volvió del redirect:", result.user.displayName);
 
-      // Forzamos el mismo flujo que onAuthStateChanged
       document.getElementById("btn-login").style.display = "none";
       document.getElementById("btn-logout").style.display = "inline-block";
       const nombreUsuarioElem = document.getElementById("nombre-usuario");
@@ -337,10 +337,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       await cargarProgresoDesdeFirestore();
       renderizarMalla();
+    } else {
+      console.log("⚠️ No se encontró usuario tras el redirect.");
     }
   })
   .catch((error) => {
-    console.error("Error tras redirect:", error);
+    console.error("❌ Error tras redirect:", error);
   });
 
 
