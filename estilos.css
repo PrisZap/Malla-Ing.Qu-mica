@@ -288,8 +288,9 @@ footer {
 }
 .autor-texto {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 14px;
-  color: #444;
+  font-size: 0.9px;
+  color: #032b4a;;
   text-align: center;
   margin-top: 4px;
+  font-weight: 600;
 }
