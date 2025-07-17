@@ -270,27 +270,35 @@ footer {
   from { transform: scale(0.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
-#auth-buttons button {
-  background-color: #cceeff; /* celeste pastel */
-  color: #003366; /* azul oscuro para contraste */
-  border: 2px solid #99ddff;
-  border-radius: 12px;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin: 5px;
+#auth-buttons-fixed {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-#auth-buttons button:hover {
+#auth-buttons-fixed button {
+  background-color: #cceeff;
+  color: #003366;
+  border: 2px solid #99ddff;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+
+#auth-buttons-fixed button:hover {
   background-color: #aaddff;
 }
-.autor-texto {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 14px;
-  color: #032b4a;;
-  text-align: center;
-  margin-top: 4px;
-  font-weight: 600;
+
+#nombre-usuario {
+  font-size: 13px;
+  color: #032b4a;
+  font-weight: bold;
 }
