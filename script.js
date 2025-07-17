@@ -322,16 +322,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Aquí va el getRedirectResult para manejar el login por redirect
-  getRedirectResult(auth)
-    .then((result) => {
-      if (result && result.user) {
-        usuarioActual = result.user;
-        console.log("Usuario volvió del redirect:", result.user.displayName);
-      }
-    })
-    .catch((error) => {
-      console.error("Error tras redirect:", error);
-    });
+ getRedirectResult(auth)
+  .then(async (result) => {
+    if (result && result.user) {
+      usuarioActual = result.user;
+      console.log("Usuario volvió del redirect:", result.user.displayName);
+
+      // Forzamos el mismo flujo que onAuthStateChanged
+      document.getElementById("btn-login").style.display = "none";
+      document.getElementById("btn-logout").style.display = "inline-block";
+      const nombreUsuarioElem = document.getElementById("nombre-usuario");
+      nombreUsuarioElem.textContent = `Hola, ${result.user.displayName}`;
+      nombreUsuarioElem.style.display = "block";
+
+      await cargarProgresoDesdeFirestore();
+      renderizarMalla();
+    }
+  })
+  .catch((error) => {
+    console.error("Error tras redirect:", error);
+  });
+
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
