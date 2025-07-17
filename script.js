@@ -303,6 +303,7 @@ document.getElementById("btn-logout").addEventListener("click", async () => {
   await auth.signOut();
 });
 
+// 🧠 Detectar cambios de login/logout
 onAuthStateChanged(auth, async (user) => {
   const nombreUsuarioElem = document.getElementById("nombre-usuario");
 
@@ -322,17 +323,31 @@ onAuthStateChanged(auth, async (user) => {
     document.getElementById("btn-logout").style.display = "none";
 
     nombreUsuarioElem.style.display = "none";
-    desactivarTodasLasMaterias(); // 💥 acá desactivás las materias sin guardar en Firestore
-renderizarMalla();
 
+    // 💥 Desactivar materias si no hay usuario
+    desactivarTodasLasMaterias();
+    renderizarMalla();
   }
 });
-function desactivarTodasLasMaterias() {
-  Object.keys(progresoMaterias).forEach(codigo => {
-    progresoMaterias[codigo] = "pendiente";
-  });
-  guardarProgresoEnLocalStorage(); // opcional si aún usás localStorage
-}
 
-// 👀 Render inicial
-document.addEventListener("DOMContentLoaded", renderizarMalla);
+// 🟢 Botón para iniciar sesión
+document.getElementById("btn-login").addEventListener("click", () => {
+  signInWithPopup(auth, provider).catch((error) => {
+    console.error("Error al iniciar sesión:", error);
+  });
+});
+
+// 🔴 Botón para cerrar sesión
+document.getElementById("btn-logout").addEventListener("click", () => {
+  signOut(auth).then(() => {
+    // 💥 Reforzamos el borrado al toque en pantalla
+    desactivarTodasLasMaterias();
+    renderizarMalla();
+  });
+});
+
+// 🖼️ Render inicial si no hay login (todas desactivadas)
+document.addEventListener("DOMContentLoaded", () => {
+  desactivarTodasLasMaterias();
+  renderizarMalla();
+});
