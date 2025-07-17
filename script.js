@@ -1,7 +1,9 @@
 // 🔥 Firebase + Auth
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, signInWithRedirect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
 // 🚀 Configuración de Firebase (poné tu config real acá)
 const firebaseConfig = {
@@ -17,7 +19,23 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 let usuarioActual = null;
+// Funciones para detectar móvil y login adaptado
+function esDispositivoMovil() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
 
+function iniciarSesionConGoogle() {
+  const provider = new GoogleAuthProvider();
+
+  if (esDispositivoMovil()) {
+    signInWithRedirect(auth, provider);
+  } else {
+    signInWithPopup(auth, provider).catch(err => {
+      console.error("Error en login", err);
+      alert("Hubo un problema al iniciar sesión.");
+    });
+  }
+}
 const materias = [
   { codigo: "1", nombre: "Quimica General", anio: 1, creditos: 5, correlativas: [] },
   { codigo: "2", nombre: "Analisis Matematico I", anio: 1, creditos: 5, correlativas: [] },
@@ -287,14 +305,6 @@ async function cargarProgresoDesdeFirestore() {
   }
 }
 
-function iniciarSesionConGoogle() {
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider).catch(err => {
-    console.error("Error en login", err);
-    alert("Hubo un problema al iniciar sesión.");
-  });
-}
-
 function desactivarTodasLasMaterias() {
   materias.forEach(m => guardarEstado(m.codigo, "desactivado"));
   electivas.forEach(e => guardarEstadoElectiva(e.nombre, "desactivado"));
@@ -310,6 +320,18 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Faltan elementos en el DOM para auth");
     return;
   }
+
+  // Aquí va el getRedirectResult para manejar el login por redirect
+  getRedirectResult(auth)
+    .then((result) => {
+      if (result && result.user) {
+        usuarioActual = result.user;
+        console.log("Usuario volvió del redirect:", result.user.displayName);
+      }
+    })
+    .catch((error) => {
+      console.error("Error tras redirect:", error);
+    });
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
