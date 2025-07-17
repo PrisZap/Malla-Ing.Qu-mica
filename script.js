@@ -295,6 +295,10 @@ function iniciarSesionConGoogle() {
   });
 }
 
+function desactivarTodasLasMaterias() {
+  materias.forEach(m => guardarEstado(m.codigo, "desactivado"));
+  electivas.forEach(e => guardarEstadoElectiva(e.nombre, "desactivado"));
+}
 
 // 🔁 Detecta el estado de login
 document.addEventListener("DOMContentLoaded", () => {
@@ -302,18 +306,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnLogout = document.getElementById("btn-logout");
   const nombreUsuarioElem = document.getElementById("nombre-usuario");
 
-  // Estado auth
-  onAuthStateChanged(auth, async (user) => {
-    if (!btnLogin || !btnLogout || !nombreUsuarioElem) {
-      console.error("Faltan elementos en el DOM para auth");
-      return;
-    }
+  if (!btnLogin || !btnLogout || !nombreUsuarioElem) {
+    console.error("Faltan elementos en el DOM para auth");
+    return;
+  }
 
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
       usuarioActual = user;
       btnLogin.style.display = "none";
       btnLogout.style.display = "inline-block";
-
       nombreUsuarioElem.textContent = `Hola, ${user.displayName}`;
       nombreUsuarioElem.style.display = "block";
 
@@ -323,7 +325,6 @@ document.addEventListener("DOMContentLoaded", () => {
       usuarioActual = null;
       btnLogin.style.display = "inline-block";
       btnLogout.style.display = "none";
-
       nombreUsuarioElem.style.display = "none";
 
       desactivarTodasLasMaterias();
@@ -331,31 +332,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Login
-  if (btnLogin) {
-    btnLogin.addEventListener("click", () => {
-      signInWithPopup(auth, provider).catch((error) => {
-        console.error("Error al iniciar sesión:", error);
-      });
-    });
-  }
+  btnLogin.addEventListener("click", () => {
+    iniciarSesionConGoogle();
+  });
 
-  // Logout
-  if (btnLogout) {
-    btnLogout.addEventListener("click", () => {
-      signOut(auth)
-        .then(() => {
-          desactivarTodasLasMaterias();
-          renderizarMalla();
-        })
-        .catch((error) => {
-          console.error("Error al cerrar sesión:", error);
-        });
+  btnLogout.addEventListener("click", () => {
+    signOut(auth).then(() => {
+      desactivarTodasLasMaterias();
+      renderizarMalla();
+    }).catch((error) => {
+      console.error("Error al cerrar sesión:", error);
     });
-  }
+  });
 
   // Render inicial
   desactivarTodasLasMaterias();
   renderizarMalla();
 });
-
