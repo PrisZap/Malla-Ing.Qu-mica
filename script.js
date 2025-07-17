@@ -297,57 +297,65 @@ function iniciarSesionConGoogle() {
 
 
 // 🔁 Detecta el estado de login
-document.getElementById("btn-login").addEventListener("click", iniciarSesionConGoogle);
-
-document.getElementById("btn-logout").addEventListener("click", async () => {
-  await auth.signOut();
-});
-
-// 🧠 Detectar cambios de login/logout
-onAuthStateChanged(auth, async (user) => {
+document.addEventListener("DOMContentLoaded", () => {
+  const btnLogin = document.getElementById("btn-login");
+  const btnLogout = document.getElementById("btn-logout");
   const nombreUsuarioElem = document.getElementById("nombre-usuario");
 
-  if (user) {
-    usuarioActual = user;
-    document.getElementById("btn-login").style.display = "none";
-    document.getElementById("btn-logout").style.display = "inline-block";
+  // Estado auth
+  onAuthStateChanged(auth, async (user) => {
+    if (!btnLogin || !btnLogout || !nombreUsuarioElem) {
+      console.error("Faltan elementos en el DOM para auth");
+      return;
+    }
 
-    nombreUsuarioElem.textContent = `Hola, ${user.displayName}`;
-    nombreUsuarioElem.style.display = "block";
+    if (user) {
+      usuarioActual = user;
+      btnLogin.style.display = "none";
+      btnLogout.style.display = "inline-block";
 
-    await cargarProgresoDesdeFirestore();
-    renderizarMalla();
-  } else {
-    usuarioActual = null;
-    document.getElementById("btn-login").style.display = "inline-block";
-    document.getElementById("btn-logout").style.display = "none";
+      nombreUsuarioElem.textContent = `Hola, ${user.displayName}`;
+      nombreUsuarioElem.style.display = "block";
 
-    nombreUsuarioElem.style.display = "none";
+      await cargarProgresoDesdeFirestore();
+      renderizarMalla();
+    } else {
+      usuarioActual = null;
+      btnLogin.style.display = "inline-block";
+      btnLogout.style.display = "none";
 
-    // 💥 Desactivar materias si no hay usuario
-    desactivarTodasLasMaterias();
-    renderizarMalla();
+      nombreUsuarioElem.style.display = "none";
+
+      desactivarTodasLasMaterias();
+      renderizarMalla();
+    }
+  });
+
+  // Login
+  if (btnLogin) {
+    btnLogin.addEventListener("click", () => {
+      signInWithPopup(auth, provider).catch((error) => {
+        console.error("Error al iniciar sesión:", error);
+      });
+    });
   }
-});
 
-// 🟢 Botón para iniciar sesión
-document.getElementById("btn-login").addEventListener("click", () => {
-  signInWithPopup(auth, provider).catch((error) => {
-    console.error("Error al iniciar sesión:", error);
-  });
-});
+  // Logout
+  if (btnLogout) {
+    btnLogout.addEventListener("click", () => {
+      signOut(auth)
+        .then(() => {
+          desactivarTodasLasMaterias();
+          renderizarMalla();
+        })
+        .catch((error) => {
+          console.error("Error al cerrar sesión:", error);
+        });
+    });
+  }
 
-// 🔴 Botón para cerrar sesión
-document.getElementById("btn-logout").addEventListener("click", () => {
-  signOut(auth).then(() => {
-    // 💥 Reforzamos el borrado al toque en pantalla
-    desactivarTodasLasMaterias();
-    renderizarMalla();
-  });
-});
-
-// 🖼️ Render inicial si no hay login (todas desactivadas)
-document.addEventListener("DOMContentLoaded", () => {
+  // Render inicial
   desactivarTodasLasMaterias();
   renderizarMalla();
 });
+
