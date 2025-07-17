@@ -286,3 +286,10 @@ footer {
 #auth-buttons button:hover {
   background-color: #aaddff;
 }
+.autor-texto {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  color: #444;
+  text-align: center;
+  margin-top: 4px;
+}
