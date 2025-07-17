@@ -27,14 +27,25 @@ function esDispositivoMovil() {
 function iniciarSesionConGoogle() {
   const provider = new GoogleAuthProvider();
 
-  if (esDispositivoMovil()) {
-    signInWithRedirect(auth, provider);
-  } else {
-    signInWithPopup(auth, provider).catch(err => {
-      console.error("Error en login", err);
+  signInWithPopup(auth, provider)
+    .then(async (result) => {
+      usuarioActual = result.user;
+      console.log("✅ Usuario logueado con popup:", result.user.displayName);
+
+      document.getElementById("btn-login").style.display = "none";
+      document.getElementById("btn-logout").style.display = "inline-block";
+      const nombreUsuarioElem = document.getElementById("nombre-usuario");
+      nombreUsuarioElem.textContent = `Hola, ${result.user.displayName}`;
+      nombreUsuarioElem.style.display = "block";
+
+      await cargarProgresoDesdeFirestore();
+      renderizarMalla();
+    })
+    .catch((error) => {
+      console.error("❌ Error en login con popup:", error);
       alert("Hubo un problema al iniciar sesión.");
     });
-  }
+}
 }
 const materias = [
   { codigo: "1", nombre: "Quimica General", anio: 1, creditos: 5, correlativas: [] },
@@ -320,31 +331,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Faltan elementos en el DOM para auth");
     return;
   }
-
- getRedirectResult(auth)
-  .then(async (result) => {
-    console.log("🔁 Resultado del redirect:", result); // NUEVO
-
-    if (result && result.user) {
-      usuarioActual = result.user;
-      console.log("✅ Usuario volvió del redirect:", result.user.displayName);
-
-      document.getElementById("btn-login").style.display = "none";
-      document.getElementById("btn-logout").style.display = "inline-block";
-      const nombreUsuarioElem = document.getElementById("nombre-usuario");
-      nombreUsuarioElem.textContent = `Hola, ${result.user.displayName}`;
-      nombreUsuarioElem.style.display = "block";
-
-      await cargarProgresoDesdeFirestore();
-      renderizarMalla();
-    } else {
-      console.log("⚠️ No se encontró usuario tras el redirect.");
-    }
-  })
-  .catch((error) => {
-    console.error("❌ Error tras redirect:", error);
-  });
-
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
