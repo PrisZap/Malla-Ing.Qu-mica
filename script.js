@@ -207,7 +207,7 @@ function actualizarResumen() {
   let porcentaje = ((aprobadas / totalCreditos) * 100).toFixed(1);
 
   document.getElementById("resumen-container").innerHTML = `
-    <h3>Resumen de Progreso</h3>
+    <h3>Progreso</h3>
     <p><strong>Carga Horaria:</strong> ${aprobadas} / ${totalCreditos} horas</p>
     <p><strong>Carga Horaria Electivas:</strong> ${aprobadasElectivas} / ${totalElectivas} horas</p>
     <p><strong>Progreso sin El:</strong> ${porcentaje}%</p>
