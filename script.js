@@ -321,4 +321,3 @@ document.getElementById("btn-logout").addEventListener("click", async () => {
 
 // 👀 Render inicial
 document.addEventListener("DOMContentLoaded", renderizarMalla);
-
