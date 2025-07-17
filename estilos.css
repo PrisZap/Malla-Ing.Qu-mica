@@ -270,3 +270,19 @@ footer {
   from { transform: scale(0.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+#auth-buttons button {
+  background-color: #cceeff; /* celeste pastel */
+  color: #003366; /* azul oscuro para contraste */
+  border: 2px solid #99ddff;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 5px;
+}
+
+#auth-buttons button:hover {
+  background-color: #aaddff;
+}
